@@ -34,7 +34,7 @@ org.jboss.weld.seweld-se-core3.0.1.Final
 
 Considere as seguintes classes:
 
-```java
+```text
 import javax.inject.Inject;
 
 public class Controller {
@@ -71,7 +71,7 @@ public class Dao {
 
 Para injeta-las, precisamos inicializar nossa aplicação da seguinte forma:
 
-```java
+```text
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
@@ -97,7 +97,7 @@ Note que, usar o Weld fora do Application Server, algumas funcionalidades altera
 
 Podemos injetar qualquer Bean utilizando a anotação `@Inject`.
 
-```java
+```text
 @WebServlet(name = "EmpregadoServlet", urlPatterns = {"",   "/empregados"})
 public class EmpregadoServlet extends HttpServlet {
 
@@ -114,7 +114,7 @@ Note que se os Beans injetados possuirem dependências, estas também serão sat
 
 Para transformar objetos que não sejam de fácil instanciação em um `Managed Bean`, podemos utilizar uma anotação especial, a `@Produces`. Esta anotação define um `Factory Method` para um tipo, possibilitando que o Container obtenha uma instância para injeção quando necessário. Um exemplo bastante comum é a criação de um `Factory Method` para criar um `EntityManager`:
 
-```java
+```text
 public class EMFactory {
 
     private EntityManagerFactory emf;
@@ -144,7 +144,7 @@ Um qualificador customizado é uma anotação criada para dicionar uma qualifica
 
 Poderíamos, por exemplo, criar uma anotação chamada `@Outro` da seguinte forma:
 
-```java
+```text
 import javax.inject.Qualifier;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -160,14 +160,14 @@ public @interface Outro {}
 
 E marcariamos nosso repositório:
 
-```java
+```text
 @Outro
 public class DepartamentoRepositorio2 implements DepartamentoRepositorio { ... }
 ```
 
 Feito isto, poderíamos injetar este bean da seguinte forma:
 
-```java
+```text
 @Inject @Outro private DepartamentoRepositorio repositorio
 ```
 
@@ -177,20 +177,20 @@ Adicionalmente, há uma anotação chamada `@Alternative` que permite que config
 
 Para usa-la, marcamos o Bean com a anotação:
 
-```java
+```text
 @Alternative
 public class TestCoderImpl implements Coder { ... }
 ```
 
 Podemos ter um outro bean marcado como Default.
 
-```java
+```text
 public class CoderImpl implements Coder { ... }
 ```
 
 E seu uso, através de injeção.
 
-```java
+```text
 @Inject Coder coder;
 ```
 
@@ -204,7 +204,7 @@ Alternar a classe indicada no arquivo `beans.xml` irá alterar a classe que ser�
 
 Uma outra opção é utilizar a anotação `@Specializes`. Quando existem dois beans disponíveis para uso, o marcado com a anotação `@Specializes` será sempre injetado, ou seja, irá sobrescrever o outro totalmente. O único detalhe é que o bean especializado deverá extender o outro bean, sendo realmente uma especialização.
 
-```java
+```text
 @Default @Asynchronous
 public class AsynchronousService implements Service {   ... }
 
@@ -230,7 +230,7 @@ Como ambos os módulos incluem classes repositório que implementam as mesmas in
 
 Podemos excluir determinados beans do scan do Servidor de Aplicação. Isto é feito através da anotação `@Vetoed`.
 
-```java
+```text
 @Vetoed
 @Entity
 @Table(name = "departamento")
@@ -249,7 +249,7 @@ class DepartamentoJpa {
 
 Outra forma de utilizar esta anotação é antes da declaração de package, fazendo com que toda as classes da package seja excluída do scan.
 
-```java
+```text
 @Vetoed
 package br.com.mobicare.persistencia.jpa;
 
@@ -277,7 +277,7 @@ Interceptadores são um recurso antigo do Java que foi melhorado com a especific
 
 Para criar um novo interceptador, devemos criar uma anotação da seguinte forma:
 
-```java
+```text
 @InterceptorBinding
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -286,7 +286,7 @@ public @interface Transactional {   }
 
 Com esta anotação em mãos, podemos anotar uma classe ou apenas um método.
 
-```java
+```text
 package com.miguelmf.study.weld;
 
 public class Dao {
@@ -300,7 +300,7 @@ public class Dao {
 
 Feita esta configuração, quando o método Save receber alguma chamada, o container irá procurar pela classe associada à anotação `@Transactional`. Podemos implementa-la da seguinte forma:
 
-```java
+```text
 @Transactional @Interceptor
 public class TransactionInterceptor {
 
@@ -337,7 +337,7 @@ A seção de código antes da chamada ao método `ctx.proceed` será executada a
 
 Podemos adicionar mais informações à interceptadores através da adição de métodos membros da interface.
 
-```java
+```text
 @InterceptorBinding
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
@@ -348,7 +348,7 @@ public @interface Transactional {
 
 Ao implementar esta anotação, poderemos definir um valor inicial para este atributo.
 
-```java
+```text
 @Transactional(requiresNew = true) @Interceptor
 public class RequiresNewTransactionInterceptor {
    @AroundInvoke
@@ -359,14 +359,14 @@ public class RequiresNewTransactionInterceptor {
 
 feito isto, podemos ser explícitos que queremos um interceptador onde requiresNew seja `true`
 
-```java
+```text
 @Transactional(requiresNew = true)
 public class ShoppingCart { ... }
 ```
 
 No caso da existência de apenas um Bean, podemos configurar para que o CDI ignore esta chave com a anotação `Nonbinding`
 
-```java
+```text
 @InterceptorBinding
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
@@ -379,7 +379,7 @@ public @interface Secure {
 
 Podemos efetuar o binding de diversos interceptadores com uma classe acumulando as anotações.
 
-```java
+```text
 @Transactional
 @Normalized
 public class Dao {
@@ -394,7 +394,7 @@ Esta anotação fará com que ambos os interceptadores sejam executados. Podemos
 
 Na definição da anotação, podemos efetuar a associação de outros interceptadores.
 
-```java
+```text
 @Transactional
 @InterceptorBinding
 @Target({ElementType.METHOD, ElementType.TYPE})
@@ -404,7 +404,7 @@ public @interface Normalized { }
 
 Agora, ao anotar uma classe com `@Normalized` ambos os interceptadores serão executados.
 
-```java
+```text
 @Normalized
 public class Dao {
     // Code
@@ -422,7 +422,7 @@ Um interceptador pode ser associado à dois tipos de pontos de interceptação: 
 
 Podemos implementar o interceptor `Normalized` na classe `NormalizedInterceptor` para exemplificar o uso destes callbacks.
 
-```java
+```text
 @Transactional @Interceptor
 public class NormalizedInterceptor {
 
@@ -466,7 +466,7 @@ Já os Decorators são perfeitos para este tipo de necessidade. Assim como o Pat
 
 Considere a interface `Account`:
 
-```java
+```text
 public interface Account {
 
    public BigDecimal getBalance();
@@ -479,7 +479,7 @@ public interface Account {
 
 Podemos criar um Decorator para ela, implementando a mesma interface em uma classe anotada com `@Decorator`. Um Decorator _pode_ ser uma classe abstrata, o que nos permite não implementar os métodos que não receberão nenhum tipo de tratamento.
 
-```java
+```text
 @Decorator
 public abstract class LargeTransactionDecorator implements  Account {
    @Inject @Delegate @Any Account account;
@@ -515,7 +515,7 @@ org.mycompany.myapp. LargeTransactionDecorator
 
 A segunda forma é utilizando a anotação `@Priority` que irá liga-lo globalmente. Esta anotação precisa de um valor inteiro que irá definir a prioridade \(maior == mais prioridade\)
 
-```java
+```text
 @Priority(value = 10)
 @Decorator
 public class LoggingDecorator implements DaoI {
@@ -547,7 +547,7 @@ O esquema padrão de eventos é similar ao Pattern Observer/Observable, no entan
 
 Um evento é um Qualifier e é declaro de maneira similar.
 
-```java
+```text
 @Qualifier
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
@@ -558,13 +558,13 @@ public @interface Updated { }
 
 Um método observador é um bean com um paràmetro anotado com `@Observes`. Qualquer outro qualificador utilizado neste método, como o `Updated` que definimos, será usado para filtrar os eventos que este receberá.
 
-```java
+```text
 public void afterDocumentUpdate(@Observes @Updated Document document) { ... }
 ```
 
 Um método observador pode possuir paràmetros adicionais, que também serão pontos de injeção.
 
-```java
+```text
 public void afterDocumentUpdate(@Observes @Updated Document document, User user) { ... }
 ```
 
@@ -574,20 +574,20 @@ Se um método observador não especificar nenhum qualificador de evento, este se
 
 Produtores de eventos disparam eventos utilizando uma instância da Interface `Event`, que é obtida por injeção.
 
-```java
+```text
 @Inject @Any Event<Document> documentEvent;
 @Inject @Updated Event<Document> anotherDocumentEvent;
 ```
 
 Com estas instâncias, executamos os eventos com o método `fire`:
 
-```java
+```text
 documentEvent.fire(document);
 ```
 
 O uso do Qualifier ao injegar estas instâncias na classe irá filtrar os eventos obtidos. Outra forma de filtrar os eventos é chamar o método `select` da interface `Event` e passar as classes dos Qualifiers.
 
-```java
+```text
 documentEvent.select(new AnnotationLiteral<Updated>(){}).fire(document);
 ```
 
@@ -597,7 +597,7 @@ Anotar o ponto de injeção é mais simples mas, para casos em que queremos requ
 
 Podemos adicionar campos membro à qualificadores para outra camada de 'filtro' dos eventos.
 
-```java
+```text
 @Qualifier
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
@@ -608,13 +608,13 @@ public @interface Role {
 
 Podemos agora definir um observador para um Role de valor específico.
 
-```java
+```text
 public void adminLoggedIn(@Observes @Role(ADMIN) LoggedIn event) { ... }
 ```
 
 Ao injetar os eventos, anotamos com o mesmo qualificador.
 
-```java
+```text
 @Inject @Role(ADMIN) Event<LoggedIn> loggedInEvent;
 ```
 
@@ -624,7 +624,7 @@ abstract class RoleBinding extends AnnotationLiteral implements Role {}
 
 E então, passamos uma instância desta classe no método `Select`.
 
-```java
+```text
 documentEvent.select(new RoleBinding() {
    public void value() { return user.getRole(); }
 }).fire(document);
@@ -634,7 +634,7 @@ documentEvent.select(new RoleBinding() {
 
 Podemos definir quando a notificação de um evento deve ser entregue à um observador. No exemplo abaixo, configuramos o observador coo `@Observes(during = AFTER_SUCCESS`, o que indica que este observador será chamado apenas quando a transação estiver completa e somente se for completa com sucesso.
 
-```java
+```text
 public void refreshCategoryTree(@Observes(during = AFTER_SUCCESS) CategoryUpdateEvent event) { ... }
 ```
 
@@ -650,7 +650,7 @@ Temos outros hooks:
 
 Um exemplo de uso é em atualizações de dados:
 
-```java
+```text
 @Stateless
 public class ProductManager {
 
@@ -680,14 +680,14 @@ public class ProductManager {
 
 São atributos de classes que são produtores de beans.
 
-```java
+```text
 @Produces @PersistenceContext(unitName="CustomerDatabase")
 @CustomerDatabase EntityManager     customerDatabasePersistenceContext;
 ```
 
 A vantagem é não ter de criar um método produtor. Diversos outros serviços tambẽm são suportados: `@Resource`, `@EJB`, `@PersistenceContext`, `@PersistenceUnit` or `@WebServiceRef`.
 
-```java
+```text
 @Produces @WebServiceRef(lookup="java:app/service/Catalog")
 Catalog catalog;
 
@@ -721,7 +721,7 @@ Podemos marcar um Bean \(ou um Factory Method\) com diferentes anotações que i
 
 Exemplo de uso:
 
-```java
+```text
 import javax.inject.Inject;
 import javax.enterprise.context.RequestScoped;
 
@@ -741,7 +741,7 @@ _Nota_: ao usar o Weld ou outra implementação CDI em aplicações Java SE, os 
 
 Classes que utilizem injeção de dependências também podem ser testadas utilizando o `Mockito`. Como, geralmente, a injeção não ocorre no construtor \(mas pode\) e sim em atributos, o Mockito possui funcionalidade específica para identificar quais atributos precisam receber uma instância. Considere a classe abaixo:
 
-```java
+```text
 public class ClienteApi implements Cliente {
 
     @Inject
@@ -756,7 +756,7 @@ public class ClienteApi implements Cliente {
 
 Para testar esta classe, precisamos de instâncias Mockadas de `DepartamentoRepositorio` e `EmpregadoRepositorio`. Como a classe não recebe estes instâncias via construtor, deve-se utilizar um recurso específico do Mockito para injeta-las.
 
-```java
+```text
 @RunWith(MockitoJUnitRunner.class)
 public class ClienteApiTest {
 
@@ -785,7 +785,7 @@ Podemos acessar os atributos de uma instância via Reflection _mesmo que este se
 
 Para efetuar testes de integração em um módulo de persistência, tomemos como exemplo a classe `DepartamentoRepositorioJpa`. Esta classe precisa receber um `EntityManager` para executar as suas operações.
 
-```java
+```text
 public class DepartamentoRepositorioJpa implements DepartamentoRepositorio {
 
     @Inject
@@ -797,7 +797,7 @@ public class DepartamentoRepositorioJpa implements DepartamentoRepositorio {
 
 Podemos então, em nossa classe de testes utilizar do seguinte artifício:
 
-```java
+```text
 @Before
 public void setUp() throws Exception {
     departamentoRepositorio = new DepartamentoRepositorioJpa();
