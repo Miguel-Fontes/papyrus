@@ -231,9 +231,9 @@ class StandardTests {
 
 ### Nomes de Exibição
 
-É possível definir nomes de exibição para os testes utilizando a anotaçao `@DisplayName`. Finalmente, BDD de graça!
+É possível definir nomes de exibição para os testes utilizando a anotaçao `@DisplayName`.
 
-f
+``` java
 @DisplayName("A special test case")
 class DisplayNameDemo {
 
