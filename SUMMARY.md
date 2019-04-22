@@ -9,4 +9,5 @@
   * [Java](programacao/linguagens/java/README.md)
     * [CDI](programacao/linguagens/java/cdi.md)
     * [JUnit5](programacao/linguagens/java/junit5.md)
+    * [Convenções de nome](programacao/linguagens/java/convencoes-de-nome.md)
 
