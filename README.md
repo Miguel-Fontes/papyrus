@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Aqui é onde guardo e compartilho o conhecimento que possuo e qualquer coisa que esteja aprendendo em minha caminhada pelo mundo. Minha intenção é construir uma base de consulta acessível para mim \(sim, minha memória é bastante volátio\) e, enquanto isso, ajudar almas similares e aprender nestes contatos.
+Aqui é onde guardo e compartilho o conhecimento que possuo e qualquer coisa que esteja aprendendo em minha caminhada pelo mundo. Minha intenção é construir uma base de consulta acessível para mim \(sim, minha memória é bastante volátil\) e, enquanto isso, ajudar almas similares e aprender nestes contatos.
 
 ## O que esperar
 
