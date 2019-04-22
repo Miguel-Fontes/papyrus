@@ -15,32 +15,102 @@ Os novos módulos do JUnit são:
 * JUnit Vintage: provê um TestEngine para execução do JUnit 3 e 4;
 
 ## Configuração
-
 Para adicionar o JUnit 5 utilizando o Maven, devemos adicionar como dependência a nova plataforma:
 
-org.junit.jupiterjunit-jupiter-api5.0.0test
+```xml
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.0.0</version>
+        <scope>test</scope>
+    </dependency>
+```
 
 E adicionalmente, devemos configurar o plugin do surefire.
 
-maven-surefire-plugin2.19org.junit.platformjunit-platform-surefire-provider1.0.0org.junit.jupiterjunit-jupiter-engine5.0.0
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.0.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+```
 
 ### Executando testes do JUnit 4 e Junit 5
-
 Para executar testes do JUnit 4 junto aos do JUnit 5 é necessário adicionar a dependência ao módulo `junit-vintage-engine` e adicionar a dependência do JUnit 4 ao projeto.
 
-maven-surefire-plugin2.19org.junit.platformjunit-platform-surefire-provider1.1.0org.junit.jupiterjunit-jupiter-engine5.0.0org.junit.vintagejunit-vintage-engine4.12.0
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.1.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.0.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.vintage</groupId>
+                        <artifactId>junit-vintage-engine</artifactId>
+                        <version>4.12.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+``` 
 
 ### Filtrando por Tags
+Podemos filtrar os testes de acordo com suas tags (veja [Tags e Filtros](#tags-e-filtros))
 
-Podemos filtrar os testes de acordo com suas tags \(veja [Tags e Filtros](junit5.md#tags-e-filtros)\)
-
- ...maven-surefire-plugin2.19acceptanceintegration,regression ...
+```xml
+    <build>
+        <plugins>
+            ...
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <configuration>
+                    <properties>
+                        <includeTags>acceptance</includeTags>
+                        <excludeTags>integration,regression</excludeTags>
+                    </properties>
+                </configuration>
+                <dependencies>
+                    ...
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+```
 
 ### Junit Launcher
 
 É uma ferramenta de linha de comando [disponível no maven](https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/) que provê pretty printing para a execução de testes.
 
-```text
+```java
 ├─ JUnit Vintage
 │  └─ example.JUnit4Tests
 │     └─ standardJUnit4Test ✔
@@ -104,7 +174,7 @@ Diferente das antigas versões, cada teste poderá ser anotado com diversas anot
 
 Para evitar repetição de código o JUnit 5 permite que uma anotação composta seja definida, onde configuraremos as anotações que desejamos adicionar aos nossos testes \(portanto, comportam-se como meta-anotações\). Ao anotar um teste com esta nova anotação composta, este irá herdar o comportamento de todas as anotações associadas simultâneamente.
 
-```text
+```java
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -122,7 +192,7 @@ public @interface Fast { }
 
 A estrutura padrão de um Teste com o JUnit 5 é:
 
-```text
+```java
 class StandardTests {
 
     @BeforeAll
@@ -163,7 +233,7 @@ class StandardTests {
 
 É possível definir nomes de exibição para os testes utilizando a anotaçao `@DisplayName`. Finalmente, BDD de graça!
 
-```text
+f
 @DisplayName("A special test case")
 class DisplayNameDemo {
 
@@ -185,7 +255,7 @@ As principais mudanças das asserções são 1\) as mensagens agora são o últi
 
 No teste abaixo, note que é possível criar uma mensagem que será avaliada de maneira lazy, apenase se o teste falhar.
 
-```text
+```java
 class AssertionsDemo {
 
     @Test
@@ -205,7 +275,7 @@ class AssertionsDemo {
 
 Há uma nova asserção chamada `assertAll` que recebe uma lista de asserções. Todas as asserções são executadas e, se existirem, todas as falhas serão reportadas.
 
-```text
+```java
 @Test
 void groupedAssertions() {
     // In a grouped assertion all assertions are executed, and any
@@ -219,7 +289,7 @@ void groupedAssertions() {
 
 É possível criar estruturas complexas utilizando o `assertAll`.
 
-```text
+```java
 @Test
 void dependentAssertions() {
     // Within a code block, if an assertion fails the
@@ -255,7 +325,7 @@ void dependentAssertions() {
 
 Para avaliarmos se uma `Exception` é lançada, agora utilizamos o assert `assertThrows`. A vantagem deste novo método é que obtemos a instância da exceção, o que permite que avaliemos mensagens e outros dados.
 
-```text
+```java
 @Test
 void exceptionTesting() {
     Throwable exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -269,7 +339,7 @@ void exceptionTesting() {
 
 Existem um novo assert para avaliar o tempo de resposta de um procedimento, `assertTimeout`.
 
-```text
+```java
 @Test
 void timeoutExceeded() {
     // The following assertion fails with an error message similar to:
@@ -285,7 +355,7 @@ void timeoutExceeded() {
 
 Assumptions é um recurso antigo do JUnit 4 que também foi melhorado nesta nova versão. Uma Assumption é uma teste utilizado para garantir que o ambiente do teste é adequado e, caso contrário, o teste será ignorado. Este é um recurso útil para verificar configurações externas ou outros detalhes que possam causar a quebra do teste mas que não possuam relação com o está sendo testado em si \(uma conexão com o BD, por exemplo\).
 
-```text
+```java
 class AssumptionsDemo {
 
     @Test
@@ -305,7 +375,7 @@ Todas as Assumptions são métodos estáticos. Mais em [documentação de usuari
 
 Desligamos testes com a anotação `@Disabled`, que pode ser aplicada em classes ou métodos.
 
-```text
+```java
 @Disabled
 class DisabledClassDemo {
     @Test
@@ -318,7 +388,7 @@ class DisabledClassDemo {
 
 Podemos utilizar a anotação `Tag()` para aplicar tags em um teste. Estas tags são úteis para que testes sejam filtrados posteriormente.
 
-```text
+```java
 @Tag("fast")
 @Tag("model")
 class TaggingDemo {
@@ -350,7 +420,7 @@ Existem algumas opções com relação à esta configuração, veja [na document
 
 É possível aninhar classes de teste, expressando melhor o relacionamento entre elas. Este aninhamento de classes pode ter uma profundidade arbitrária e, junto com os nomes indicados na anotação `@DisplayName` pode criar uma árvore de asserções com grande semântica.
 
-```text
+```java
 public class ListaTest {
 
     private List<String> lista;
@@ -413,7 +483,7 @@ Qualquer método anotado com `@Test`, `@TestFactory`, `@BeforeEach`, `@AfterEach
 
 O [ParameterResolver](http://junit.org/junit5/docs/current/api/org/junit/jupiter/api/extension/ParameterResolver.html) do JUnit define a API para que extensões de teste sejam desenvolvidas \(frameworks\). Estes `ParameterResolver` customizados, uma vez registrados permitem que diferentes instâncias sejam injetadas. Um exemplo, é a versão nova do Mockito:
 
-```text
+```java
 @ExtendWith(MockitoExtension.class)
 class MyMockitoTest {
 
@@ -440,7 +510,7 @@ Por padrão, o JUnit já disponibiliza os seguintes objetos:
 
 Demonstração de uso do `TestInfo`:
 
-```text
+```java
 @Test
 @DisplayName("TEST 1")
 @Tag("my-tag")
@@ -452,7 +522,7 @@ void test1(TestInfo testInfo) {
 
 Podemos utilizar o `TestReporter` da seguinte forma:
 
-```text
+```java
 class TestReporterDemo {
 
     @Test
@@ -474,13 +544,13 @@ class TestReporterDemo {
 
 Na execução, será impresso "timestamp = 2017-09-16T12:53:21.366, user name = dk38, award year = 1974'. Também é possível chamar o método `publicEntry` adicionando uma chave e valor, da seguinte forma:
 
-```text
+```java
 testReporter.publishEntry(chave, valor);
 ```
 
 O detalhe é que, internamente, usa-se também um map e, quando adicionados desta forma, os valores serão exibidos separadamente:
 
-```text
+```java
 timestamp = 2017-09-16T12:57:11.752, 1 = valor1
 timestamp = 2017-09-16T12:57:11.755, 2 = valor2
 timestamp = 2017-09-16T12:57:11.755, 3 = valor3
@@ -492,7 +562,7 @@ timestamp = 2017-09-16T12:57:11.755, 3 = valor3
 
 Esta funcionalidade é útil para que possamos aplicar testes padrão e construir contratos com os quais determinados objetos deverão estar em conformidade, estabelecer padrões de mensagens de teste, verificação de tempo de execução e etc.
 
-```text
+```java
 @TestInstance(Lifecycle.PER_CLASS)
 interface TestLifecycleLogger {
 
@@ -525,7 +595,7 @@ interface TestLifecycleLogger {
 
 Podemos também declarar extensões e tags em interfaces e estes serão herdados pelas classes que as implementarem.
 
-```text
+```java
 @Tag("timed")
 @ExtendWith(TimingExtension.class)
 interface TimeExecutionLogger { }
@@ -533,7 +603,7 @@ interface TimeExecutionLogger { }
 
 Em nossa classe:
 
-```text
+```java
 class TestInterfaceDemo implements TestLifecycleLogger,
         TimeExecutionLogger, TestInterfaceDynamicTestsDemo {
 
@@ -551,7 +621,7 @@ Esta classe irá herdar todos os detalhes da interface. Isto é
 
 É possível repetir um teste diversas vezes através da anotação `@RepeatedTest`, passando a quantidade de vezes que o teste deve ser repetir. O teste abaixo, irá se repetir 10 vezes.
 
-```text
+```java
 @RepeatedTest(10)
 void repeatedTest() {
     // ...
@@ -566,7 +636,7 @@ Podemos definir um nome de exibição para as repetições através do atributo 
 
 O nome default para este tipo de testes serã "repetition {currentRepetition} of {totalRepetitions}". Para ter acesso à estes dados programaticamente, é possível injetar uma instância de `RepetitionInfo`.
 
-```text
+```java
 @DisplayName("deve suportar 5 valores")
 @RepeatedTest(value = 5, name = "repetição {currentRepetition}/ {totalRepetitions}")
 void deveSuportar5Valores(RepetitionInfo repetitionInfo) {
@@ -580,7 +650,7 @@ Existem muitos outros exemplos na [documentação oficial](http://junit.org/juni
 
 Testes parametrizáveis são testes que podem receber valores como argumentos. Estes testes são anotados com `@ParameterizedTest` e uma anotação indicando a fonte de dados como, por exemplo, `@ValueSource` onde, esta segunda anotação, indica os valores que serão passados como argumento para o teste.
 
-```text
+```java
 @ParameterizedTest
 @ValueSource(strings = { "Hello", "World" })
 void testWithStringParameter(String argument) {
@@ -603,7 +673,7 @@ Existem diversos sources de valores:
 
 Um dos mais utilizados,`@MethodSource`, recebe o nome de um método presente na classe de teste. Este método deve ser estático a não ser que a classe esteja anotada com `@TestInstance(Lifecycle.PER_CLASS)`. O retorno deste método deve ser um `Stream`, `Iterable`, `Iterator`, ou array.
 
-```text
+```java
 @ParameterizedTest
 @MethodSource("stringProvider")
 void testWithSimpleMethodSource(String argument) {
@@ -619,7 +689,7 @@ Sobre os demais, consulte a [documentação](http://junit.org/junit5/docs/curren
 
 É possível definir o nome de exibição dos testes parametrízáveis:
 
-```text
+```java
 @DisplayName("Display name of container")
 @ParameterizedTest(name = "{index} ==> first=''{0}'', second={1}    ")
 @CsvSource({ "foo, 1", "bar, 2", "'baz, qux', 3" })
@@ -628,7 +698,7 @@ void testWithCustomDisplayNames(String first, int second) { }
 
 Os valores `{0}` e `{1}` são o índice do argumento recebido pelo método.
 
-```text
+```java
 Display name of container ✔
 ├─ 1 ==> first='foo', second=1 ✔
 ├─ 2 ==> first='bar', second=2 ✔
@@ -649,7 +719,7 @@ Um `DynamicTest` é um caso de testes gerado em tempo de execução e é compost
 
 _Nota_: este é um recurso experimental.
 
-```text
+```java
 class DynamicTestsDemo {
 
     // Vai resultar em um erro pois o tipo de retorno é inválido!
