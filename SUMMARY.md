@@ -7,6 +7,6 @@
 * [Linguagens](programacao/linguagens/README.md)
   * [Shell Script](programacao/linguagens/shell-script.md)
   * [Java](programacao/linguagens/java/README.md)
-    * [JUnit5](programacao/linguagens/java/cdi.md)
-    * [CDI](programacao/linguagens/java/cdi-1.md)
+    * [CDI](programacao/linguagens/java/cdi.md)
+    * [WIP - Convenções de nome](programacao/linguagens/java/convencoes-factories.md)
 
