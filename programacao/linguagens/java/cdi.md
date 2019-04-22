@@ -18,11 +18,26 @@ O CDI pode ser utilizado de duas formas: via Servidor de Aplicação JEE \(fazen
 
 A mais simples é com o `Wildfly` onde o Weld já vem integrado, tornando-se necessário apenas adicionar um arquivo `beans.xml` vazio ao diretório `META-INF` \(JAR\) ou `WEB-INF`\(WAR ou EAR\). O arquivo `beans.xml` pode permanecer sem conteúdo, mas é boa prática adicionar a seguinte estrutura:
 
+```xml
+    <beans xmlns="http://java.sun.com/xml/ns/javaee"    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+           http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+    </beans>
+```
+
 Feito isto, o `Wildfly` irá localizar todos os Beans \(segundo a especificação `JavaBeans`\) e disponibiliza-los para injeção. Um bean disponível para injeção é chamado `Managed Bean`.
 
 Para utilizar as anotações do CDI, deve-se adicionar a dependência da API CDI do Java EE ao projeto.
 
-javax.enterprisecdi-api1.2provided
+```xml
+    <dependency>
+       <groupId>javax.enterprise</groupId>
+       <artifactId>cdi-api</artifactId>
+       <!-- Use version 2.0 for Weld 3 -->
+       <version>1.2</version>
+       <scope>provided</scope>
+    </dependency>
+```
 
 Para configuração de outros Servidores de Aplicação, veja a [documentação](http://docs.jboss.org/weld/reference/latest-master/en-US/html/environments.html#weld-servlet) do `Weld`.
 
@@ -30,7 +45,13 @@ Para configuração de outros Servidores de Aplicação, veja a [documentação]
 
 Precisamos adicionar o Weld como dependência e requisitar o nosso objeto de inicialização da aplicação ao `Container` do CDI, que irá se encarregar do restante do trabalho. O `beans.xml` no diretório `META-INF` também é necessário e pode estar vazio.
 
-org.jboss.weld.seweld-se-core3.0.1.Final
+```xml
+    <dependency>
+        <groupId>org.jboss.weld.se</groupId>
+        <artifactId>weld-se-core</artifactId>
+        <version>3.0.1.Final</version>
+    </dependency>
+```
 
 Considere as seguintes classes:
 
