@@ -18,3 +18,7 @@
   * [Go](programacao/linguagens/go/README.md)
     * [Primeiros passos](programacao/linguagens/go/primeiros-passos.md)
 
+## Pesquisa & Redação
+
+* [Latex](pesquisa-and-redacao/latex.md)
+

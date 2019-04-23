@@ -88,8 +88,25 @@ Para executar testes do JUnit 4 junto aos do JUnit 5 é necessário adicionar a 
 
 Podemos filtrar os testes de acordo com suas tags \(veja [Tags e Filtros](junit5.md#tags-e-filtros)\)
 
-```java
-testReporter.publishEntry(chave, valor);
+```markup
+    <build>
+        <plugins>
+            ...
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <configuration>
+                    <properties>
+                        <includeTags>acceptance</includeTags>
+                        <excludeTags>integration,regression</excludeTags>
+                    </properties>
+                </configuration>
+                <dependencies>
+                    ...
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 ```
 
 ### Junit Launcher
@@ -260,6 +277,18 @@ class AssertionsDemo {
 #### AssertAll
 
 Há uma nova asserção chamada `assertAll` que recebe uma lista de asserções. Todas as asserções são executadas e, se existirem, todas as falhas serão reportadas.
+
+```java
+@Test
+void groupedAssertions() {
+    // In a grouped assertion all assertions are executed, and any
+    // failures will be reported together.
+    assertAll("person",
+        () -> assertEquals("John", person.getFirstName()),
+        () -> assertEquals("Doe", person.getLastName())
+    );
+}
+```
 
 É possível criar estruturas complexas utilizando o `assertAll`.
 
