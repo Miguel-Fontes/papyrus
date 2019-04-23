@@ -1,12 +1,12 @@
 ---
-description: Seus primeiros passos na linguagem Go!
+description: Os primeiros passos na linguagem Go!
 ---
 
 # Primeiros passos
 
 ## Introdução 
 
-Tudo que é necessário entender para iniciar na linguagem Go, construindo seu ambiente de desenvolvimento e construir seu primeiro projeto!
+Tudo que é necessário entender para iniciar na linguagem Go, construindo um ambiente de desenvolvimento e o primeiro projeto!
 
 ## Estrutura de Projeto
 
