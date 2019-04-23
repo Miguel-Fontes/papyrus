@@ -15,9 +15,10 @@ Os novos módulos do JUnit são:
 * JUnit Vintage: provê um TestEngine para execução do JUnit 3 e 4;
 
 ## Configuração
+
 Para adicionar o JUnit 5 utilizando o Maven, devemos adicionar como dependência a nova plataforma:
 
-```xml
+```markup
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
@@ -28,7 +29,7 @@ Para adicionar o JUnit 5 utilizando o Maven, devemos adicionar como dependência
 
 E adicionalmente, devemos configurar o plugin do surefire.
 
-```xml
+```markup
     <build>
         <plugins>
             <plugin>
@@ -52,9 +53,10 @@ E adicionalmente, devemos configurar o plugin do surefire.
 ```
 
 ### Executando testes do JUnit 4 e Junit 5
+
 Para executar testes do JUnit 4 junto aos do JUnit 5 é necessário adicionar a dependência ao módulo `junit-vintage-engine` e adicionar a dependência do JUnit 4 ao projeto.
 
-```xml
+```markup
     <build>
         <plugins>
             <plugin>
@@ -80,12 +82,13 @@ Para executar testes do JUnit 4 junto aos do JUnit 5 é necessário adicionar a 
             </plugin>
         </plugins>
     </build>
-``` 
+```
 
 ### Filtrando por Tags
-Podemos filtrar os testes de acordo com suas tags (veja [Tags e Filtros](#tags-e-filtros))
 
-```xml
+Podemos filtrar os testes de acordo com suas tags \(veja [Tags e Filtros](junit5.md#tags-e-filtros)\)
+
+```markup
     <build>
         <plugins>
             ...
@@ -233,7 +236,7 @@ class StandardTests {
 
 É possível definir nomes de exibição para os testes utilizando a anotaçao `@DisplayName`.
 
-``` java
+```java
 @DisplayName("A special test case")
 class DisplayNameDemo {
 
