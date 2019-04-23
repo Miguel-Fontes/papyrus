@@ -1,15 +1,20 @@
+---
+description: Java Persistence API é a especificação do Java EE para persistência de dados.
+---
+
 # JPA
 
 ## Introdução
 
-Java Persistence API é a especificação do Java EE para persistência de dados. Contém diversas anotações que nos permitem armazenar dados em bancos de dados sem nem ao menos escrever SQL (ok, nem sempre).
+Java Persistence API é a especificação do Java EE para persistência de dados. Contém diversas anotações que nos permitem armazenar dados em bancos de dados sem nem ao menos escrever SQL \(ok, nem sempre\).
 
 ## Conceitos
 
 ### Configuração do JPA
+
 Para adicioanar o JPA à um projeto, precismaos como de costume buscar uma implementação concreta da especificação. A mais utilizada é o Hibernate.
 
-``` xml
+```markup
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
@@ -19,7 +24,7 @@ Para adicioanar o JPA à um projeto, precismaos como de costume buscar uma imple
 
 Adicionalmente, para configurar o JPA, precisamos adicionar de um arquivo XML chamado `persistence.xml` ao `META-INF` do projeto.
 
-``` xml
+```markup
     <?xml version="1.0" encoding="UTF-8"?>
     <persistence    xmlns="http://xmlns.jcp.org/xml/ns/persistence"    version="2.1">
 
@@ -49,68 +54,73 @@ Note que no arquivo de configuração adicionamos as propriedades da conexão co
 O elemento `<persistence-unit>` é essencial e define o nome de uma unidade de persistência. Uma unidade de persistência é um dos conceitos principais do JPA e pode ser compreendido por um conjunto de classes que são associadas à um formato de persistência específico. Podemos listar ou não as classes que pertencem à unidade de persistência utilizando um elemento `<class>`.
 
 ### Entidades
+
 Uma entidade JPA deve:
 
-- Ser anotada com `@Entity`
-- Deve possuir um construtor sem argumentos publico ou protected, mas pode possuir outros construtores.
-- A class não deve ser `final` nem nenhum de seus atributos a serem persistidos.
-- Se uma classe for passada como um objeto 'destacado' (contido em outro objeto e requisitada persistência do objeto pai), esta classe deve implementar a interface `Serializable`
-- Atributos (variáveis de instância) devem ser declaradas como `private`, `protected` ou `package-private`, sendo acessíveis apenas através de métodos da classe.
+* Ser anotada com `@Entity`
+* Deve possuir um construtor sem argumentos publico ou protected, mas pode possuir outros construtores.
+* A class não deve ser `final` nem nenhum de seus atributos a serem persistidos.
+* Se uma classe for passada como um objeto 'destacado' \(contido em outro objeto e requisitada persistência do objeto pai\), esta classe deve implementar a interface `Serializable`
+* Atributos \(variáveis de instância\) devem ser declaradas como `private`, `protected` ou `package-private`, sendo acessíveis apenas através de métodos da classe.
 
 Uma classe marcada como entidade terá todos os seus atributos persistidos a não ser que estejam marcados com `@Transient`.
 
 Para definir uma chave primária, usamos a anotação `@Id`. Para chaves primárias complexas e compostas, geralmente usa-se uma classe que represente estes dados. Uma classe que represente uma chave primária deve:
 
-- Ser pública
-- Ter suas propriedades publicas ou protected.
-- Ter um construtor default publico.
-- Implementar `hashCode` e `equals`.
-- Implementar a interface Serializable.
+* Ser pública
+* Ter suas propriedades publicas ou protected.
+* Ter um construtor default publico.
+* Implementar `hashCode` e `equals`.
+* Implementar a interface Serializable.
 
-``` java
+```java
     public final class LineItemKey implements Serializable {
         public Integer orderId;
         public int itemId;
-    
+
         public LineItemKey() {}
-    
+
         public LineItemKey(Integer orderId, int itemId) {
             this.orderId = orderId;
             this.itemId = itemId;
         }
-    
+
         public boolean equals(Object otherOb) {
             // Code
         }
-    
+
         public int hashCode() {
             // Code
         }
-    
+
     }
 ```
 
 ### Multiplicidade
+
 Existem quatro multiplicidades:
-- One to One: representada pela anotação `@OneToOne`
-- One to Many: representada pela anotação `@OneToMany`
-- Many To One: representada pela anotação `@ManyToOne`
-- Many to Many: representada pela anotação `@ManyToMany`
+
+* One to One: representada pela anotação `@OneToOne`
+* One to Many: representada pela anotação `@OneToMany`
+* Many To One: representada pela anotação `@ManyToOne`
+* Many to Many: representada pela anotação `@ManyToMany`
 
 ### Direção em relacionamentos
+
 #### Relacionamentos Bidirecionais
+
 Relacionamentos bidirecionais indicam que cada entidade envolvida nele sabe sobre a existência da outra parte. Em código Java, isto significa que duas classes que se relacionam possuem um atributo uma referenciando a outra. Neste caso é dito que um lado é o 'dono' e o outro é o lado inverso.
 
 Para representar isto no Jpa, temos de seguir as seguintes regras:
 
-- O lado inverso do relacionamento deve referenciar o lado dono usando o elemento `mappedBy` da anotação `OneToMany` ou `ManyToMany`.
-- O lado `many` de um relacionamento `Many to One` bidirecional não deve definir um elemento `mappedBy` já que o lado `many` é sempre o dono do relacionamento.
-- Em relacionamentos `One to One` bidirecionais o lado dono corresponde ao lado que contem uma chave estrangeira (FK).
-- Para relacionamentos bidirecionais `Many to Many`, qualquer um dos lados pode ser o lado dono.
+* O lado inverso do relacionamento deve referenciar o lado dono usando o elemento `mappedBy` da anotação `OneToMany` ou `ManyToMany`.
+* O lado `many` de um relacionamento `Many to One` bidirecional não deve definir um elemento `mappedBy` já que o lado `many` é sempre o dono do relacionamento.
+* Em relacionamentos `One to One` bidirecionais o lado dono corresponde ao lado que contem uma chave estrangeira \(FK\).
+* Para relacionamentos bidirecionais `Many to Many`, qualquer um dos lados pode ser o lado dono.
 
-Para criar tabelas associativas (Join Tables) manualmente, temos que criar uma estrutura similar à:
+Para criar tabelas associativas \(Join Tables\) manualmente, temos que criar uma estrutura similar à:
 
-``` java
+```java
     // Entidade Bar
     @Entity
     @Table(name = "bar")
@@ -127,7 +137,7 @@ Para criar tabelas associativas (Join Tables) manualmente, temos que criar uma e
                 fetch = FetchType.LAZY)
         private Collection<ProdutoBarJpa> produtos;
         // More Code
-    
+
     }
 
     // Tabela associativa Bar x Produto
@@ -163,23 +173,27 @@ Para criar tabelas associativas (Join Tables) manualmente, temos que criar uma e
 ```
 
 #### Relacionamentos Unidirecionais
+
 Em um Relacionamento Unidirecional, apenas um dos lados sabe sobre a existência do outro, portanto, não existem necessidades especiais além da anotação do relacionamento.
 
 ### Cascade
+
 É possível especificar os relacionamentos de cascading entre as tabelas, para restringir ou garantir que os registros associados sejam deletados.
 
-``` java
+```java
     @OneToMany(cascade=REMOVE, mappedBy="customer")
     public Set<Order> getOrders() { return orders; }
 ```
 
 ### Classes Abstratas
+
 Classes abstratas podem ser entidades, o que fará com que queries operem sobre todas as suas subclasses.
 
 ### Superclasses mapeadas
+
 É possíveis criar uma superclasse que irá conter informações úteis para o mapeamento mas que não é uma entidade em si utilizando a anotação `@MappedSuperclass`. Estas classes não são persistidas e não podem ser referenciadas em queries.
 
-``` java
+```java
     @MappedSuperclass
     public class Employee {
         @Id
@@ -199,30 +213,32 @@ Classes abstratas podem ser entidades, o que fará com que queries operem sobre 
 ```
 
 ## Gerenciando Entidades
+
 ### O EntityManager
+
 O objeto `EntityManager` é o objeto principal para gerenciarmos as entidades persistidas. Podemos construir um da seguinte forma:
 
-``` java
+```java
     EntityManagerFactoryemf = Persistence.createEntityManagerFactory("jpa-pu");
     EntityManager em = emf.createEntityManager();
-```  
+```
 
 A String `"jpa-pu"` é o nome da unidade de persistência que estamos carregando. Quando a aplicação estiver em execução em um Application Server podemos requisitar um EntityManager da seguinte maneira:
 
-``` java
+```java
     @PersistenceContext(unitName="jpa-pu")
     EntityManager em;
 ```
 
 Com o EntityManager em mãos, podemos utiliza-lo para interagir com o JPA.
 
-``` java
+```java
     em.find(MyClass.class, 1); // o 1 é um ID
 ```
 
 Para utilizar uma transação:
 
-``` java
+```java
     em.getTransaction().begin();
     em.persist(brasil);
     em.persist(rioDeJaneiro);
@@ -232,7 +248,7 @@ Para utilizar uma transação:
 
 E para criar queries:
 
-``` java
+```java
     em.createQuery("from estado where pais.id = :paisid")
         .setParameter("paisid", brasil.getId())
         .getResultList()
@@ -244,12 +260,14 @@ Note que as queries do JPA não são escritas em SQL e sim em `JPQL`.
 ## Notas de Arquitetura
 
 ### Separação de Responsabilidades
+
 Ainda que o JPA baseie-se em anotações que, inicialmente, parecem evitar código relacionado ao banco de dados, estas não devem ser misturadas com o modelo de domínio. Este visão foi o que criou o conceito de Persistence Model, inspirado pelo DDD.
 
-É normal que sejam criadas classes que refletem diretamente as estruturas de dados à serem persistidas, seguindo o padrão JavaBean, o que já as garante os requisitos necessários para serem [Entidades](#entidades).
+É normal que sejam criadas classes que refletem diretamente as estruturas de dados à serem persistidas, seguindo o padrão JavaBean, o que já as garante os requisitos necessários para serem [Entidades](jpa.md#entidades).
 
 Entre as classes de domínio e as de persistência, funcionalidades de mapeamento deverão ser construídas.
 
 ## Referências
 
-- Não há
+* Não há
+
