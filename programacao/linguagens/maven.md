@@ -56,10 +56,7 @@ E seus lifecycles:
 Fases são mapeadas para goals (um goal é contido em uma fase). Os goals específicos que serão executados por fase depende do tipo de packaging do projeto. Por exemplo, o comando package executa `jar:jar` se o tipo do projeto é Jar e `war:war` se o projeto for war.
 
 ## Diretórios
-O maven possui uma série de diretórios padrão onde ele irá buscar pelos arquivos
-da aplicação [3]. No entanto, é possível configurar alguns destes diretórios
-para outros locais, garantindo compatibilidade com aplicações antigas. As
-configurações estão presentes na definição do arquivo Pom [4]
+O maven possui uma série de diretórios padrão onde ele irá buscar pelos arquivos da aplicação [3]. No entanto, é possível configurar alguns destes diretórios para outros locais, garantindo compatibilidade com aplicações antigas. As configurações estão presentes na definição do arquivo Pom [4].
 
 ## Herança
 Os arquivos Pom.xml herdam configurações de um arquivo pom chamado superpom. No
@@ -182,8 +179,7 @@ seguinte forma.
 Desta forma, o Maven irá excluir a dependência indicada, evitando o conflito.
 
 ## Maven lifecycles, phases e goals
-Um lifecycle é um conjunto de passos ou estágios que passamos quando efetuamos o
-build de um artefato. EStes passos ou estágios são chamados de phases.
+Um lifecycle é um conjunto de passos ou estágios que passamos quando efetuamos o build de um artefato. EStes passos ou estágios são chamados de phases.
 
 Os lifecycles padrão do maven são: default, clean e site.
 
@@ -195,14 +191,11 @@ Quando executamos o comando maven como o abaixo, estamos executando uma phase.
     mvn clean
 
 Neste caso, o maven irá identificar no lifecycle, todas as phases anteriores e
-as executar também.
+as executar também. Para verificar os dados de uma phase, podemos usar o comando:
 
-Para verificar os dados de uma phase, podemos usar o comando:
+    mvn help:describe -Dcmd=deploy
 
-   mvn help:describe -Dcmd=deploy
-
-De acordo com a configuração de packaging do projeto (Ex: Jar) o maven utiliza
-os plugins corretos para montar o projeto.
+De acordo com a configuração de packaging do projeto (Ex: Jar) o maven utiliza os plugins corretos para montar o projeto.
 
 ## Principais Phases
 ### Compile
