@@ -10,15 +10,13 @@ Maven é uma ferramenta de automação de construção. Ela automatiza o process
 ## Criando um projeto com o Maven
 Para criar um projeto com maven, usamos a ferramenta de linha de comando mvn da
 seguinte forma:
- 
+
+
     mvn archetype:generate -DgroupId=com.miguelmf.mvn -DartifactId=mvn-playground -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 
-Este comando irá criar um novo projeto chamado mvn-playground no diretório
-de trabalho atual.
 
-Chamar `mvn archetype:generate` sem parâmetros irá fazer com que o maven incie o modo interativo, onde o usuário terá a oportunidade de selecionar as opções respondendo à perguntas.
+Este comando irá criar um novo projeto chamado mvn-playground no diretório de trabalho atual. Chamar `mvn archetype:generate` sem parâmetros irá fazer com que o maven incie o modo interativo, onde o usuário terá a oportunidade de selecionar as opções respondendo à perguntas.
 
-- 4. Como efetuar o build de um projeto
 Para efetuar o build de um projeto com o Maven, usamos o comando
 
     mvn package
@@ -67,11 +65,13 @@ configurações estão presentes na definição do arquivo Pom [4]
 Os arquivos Pom.xml herdam configurações de um arquivo pom chamado superpom. No
 entanto, podemos definir de qual arquivo pom desejamos herdar.
 
+``` xml
     <parent>
         <artfactId>organization.parent-pom</artifactId>
         <groupId>com.infiniteskill.maven</groupId>
         </version>1.0.0</version>
     </parent>
+```
 
 ## Profiles
 Esta funcionalidade permite que configuremos um conjunto de configurações sob um
@@ -492,15 +492,18 @@ maven.
 
 No arquivo, devemos buscar o elemento server ou criar um da seguinte forma:
 
+``` xml
     <server>
         <id>tomcat-server</id>
         <username>admin</username>
         <password>abc,123</password>
     </server>
+```
 
 Considerando que este servidor é um servidor tomcat, podemos adicionar no
 arquivo pom.xml de um projeto que o utilize um plugin chamado maven-tomcat[8].
 
+``` xml
       <plugins>
         <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
@@ -512,6 +515,7 @@ arquivo pom.xml de um projeto que o utilize um plugin chamado maven-tomcat[8].
           </configuration>
         </plugin>
       </plugins>
+```
 
 Para efetuar o deploy, usamos o comando:
 
@@ -571,9 +575,7 @@ Criando uma propriedade chamada ${tomcat.url} pode ser feito dessa forma:
 Ao executar qualquer operação do Maven, podemos usar a chave de debug para obter
 mais informações.
 
-``` sh
     mvn -X <commands>
-```
 
 ## Referências e links
 - [1] [Learning Apache Maven](https://www.safaribooksonline.com/library/view/learning-apache-maven/9781771373661/video212486.html)
