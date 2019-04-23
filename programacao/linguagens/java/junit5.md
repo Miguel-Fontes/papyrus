@@ -4,7 +4,7 @@ description: 'Revisão do JUnit, adicionando novas funcionalidades suportadas pe
 
 # JUnit5
 
-## Mudanças
+## Introdução
 
 O JUnit 5 \(antigamente chamado de JUnit lambda\) é uma revisão do projeto, adicionando novas funcionalidades suportadas pelo Java8. O projeto foi separado em diferentes módulos e garante compatibilidade com as versões anteriores.
 
