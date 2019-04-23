@@ -15,6 +15,5 @@
     * [Convenções de nome](programacao/linguagens/java/convencoes-de-nome.md)
     * [Java EE](programacao/linguagens/java/java-ee/README.md)
       * [JEE Web App com Servlets](programacao/linguagens/java/java-ee/jee-web-app-com-servlets.md)
-  * [Go](programacao/linguagens/go/README.md)
-    * [Primeiros passos](programacao/linguagens/go/primeiros-passos.md)
+    * [Go](programacao/linguagens/java/go.md)
 
