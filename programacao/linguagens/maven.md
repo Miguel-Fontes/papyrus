@@ -12,7 +12,11 @@ Para criar um projeto com maven, usamos a ferramenta de linha de comando mvn da
 seguinte forma:
 
 
-    mvn archetype:generate -DgroupId=com.miguelmf.mvn -DartifactId=mvn-playground -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+    mvn archetype:generate 
+      -DgroupId=com.miguelmf.mvn 
+      -DartifactId=mvn-playground 
+      -DarchetypeArtifactId=maven-archetype-quickstart 
+      -DinteractiveMode=false
 
 
 Este comando irá criar um novo projeto chamado mvn-playground no diretório de trabalho atual. Chamar `mvn archetype:generate` sem parâmetros irá fazer com que o maven incie o modo interativo, onde o usuário terá a oportunidade de selecionar as opções respondendo à perguntas.
@@ -285,9 +289,10 @@ configura-lo no elemento <pluginManagement>.
 Podemos criar novos plugins, caso não encontremos um que faça o que precisamos
 (raro). Há um archetype para auxiliar este procedimento.
 
-    mvn archetype:create -DgroupId=com.infiniteskills.maven
-    -DartifactId=first-custom -DarchetypeArtifactId=maven-archetype-mojo
-    -DarchetypeGroupId=org.apache.maven.archetype
+    mvn archetype:create 
+      -DgroupId=com.infiniteskills.maven
+      -DartifactId=first-custom -DarchetypeArtifactId=maven-archetype-mojo
+      -DarchetypeGroupId=org.apache.maven.archetype
 
 Este comando irá criar um projeto padrão para desenvolvermos nosso plugin.
 
