@@ -8,83 +8,90 @@ description: >-
 
 ## Introdução
 
-Latex é um sistema de preparação de documentos, que nos provê uma 'linguagem' de marcação que definir a estrutura de um documento de texto. Através destas marcações, é possível definir em um segundo momento como o documento será formatado, evitando interrupções durante a escrita e até mesmo removendo esta responsabilidade do autor do documento. Isto faz do Latex uma ferramenta muito utilizada para a escrita de artigos e livros. 
+Latex é um sistema de preparação de documentos, que nos provê uma 'linguagem' de marcação que definir a estrutura de um documento de texto. Através destas marcações, é possível definir em um segundo momento como o documento será formatado, evitando interrupções durante a escrita e até mesmo removendo esta responsabilidade do autor do documento. Isto faz do Latex uma ferramenta muito utilizada para a escrita de artigos e livros.
 
 ## Básicos
 
 ### Estruturando Documentos
-https://en.wikibooks.org/wiki/LaTeX/Document_Structure 
+
+[https://en.wikibooks.org/wiki/LaTeX/Document\_Structure](https://en.wikibooks.org/wiki/LaTeX/Document_Structure)
 
 ### Referência Cruzada
-https://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing
 
-https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
+É possível referênciar qualquer ponto do documento. Ver este \[wiki\]\([https://en.wikibooks.org/wiki/LaTeX/Labels\_and\_Cross-referencing](https://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing)\).
 
-https://pt.sharelatex.com/learn/Bibliography_management_with_biblatex
-https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
+Para consulta rápida dos labels:
 
-| Prefixo | Tipo                 |
-| ------- | -------------------- |
-| ch      | chapter              |
-| sec     | section              |
-| subsec  | subsection           |
-| fig     | figure               |
-| tab     | table                |
-| eq      | equation             |
-| lst     | code listing         |
-| itm     | enumerated list item |
-| alg     | algorithm            |
-| app     | appendix subsection  |
-
+| Prefixo | Tipo |
+| :--- | :--- |
+| ch | chapter |
+| sec | section |
+| subsec | subsection |
+| fig | figure |
+| tab | table |
+| eq | equation |
+| lst | code listing |
+| itm | enumerated list item |
+| alg | algorithm |
+| app | appendix subsection |
 
 ### BibTex
-Utilizando o biblatex, após adicionar um arquivo *.bib no diretório do Projeto, é necessário incluir o pacote `\usepackage[backend=biber]{biblatex}` passando o Backend como biber.
 
-Feito isto, processa-se o arquivo *.tex do projeto e, após, utiliza-se o biber para executar o arquivo *.bcf gerado pelo `latex`. Geralmente a ordem de execução é:
+Utilizando o biblatex, após adicionar um arquivo \*.bib no diretório do Projeto, é necessário incluir o pacote `\usepackage[backend=biber]{biblatex}` passando o Backend como biber.
 
-```
+Feito isto, processa-se o arquivo _.tex do projeto e, após, utiliza-se o biber para executar o arquivo_ .bcf gerado pelo `latex`. Geralmente a ordem de execução é:
+
+```text
 latex arquivo.tex
 biber arquivo.bcf
 ```
 
-Podemos imprimir todas as referências com o comando `\printbibliography[title={Referências}]`. Para citar uma das referências, utilizamos o comando `\cite{noauthor_maven_nodate}` onde `noauthor_maven_nodate` é o nome da chave bib do arquivo *.bib.
+Podemos imprimir todas as referências com o comando `\printbibliography[title={Referências}]`. Para citar uma das referências, utilizamos o comando `\cite{noauthor_maven_nodate}` onde `noauthor_maven_nodate` é o nome da chave bib do arquivo \*.bib.
 
 ### Espaçamento entre Parágrafos
 
-https://pt.sharelatex.com/learn/Paragraph_formatting
+[https://pt.sharelatex.com/learn/Paragraph\_formatting](https://pt.sharelatex.com/learn/Paragraph_formatting)
 
 ### Internacionalização
 
-    \usepackage[utf8]{inputenc}
-    \usepackage[T1]{fontenc}
-    \usepackage[brazilian]{babel}
+```text
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+```
 
-Wiki: https://en.wikibooks.org/wiki/LaTeX/Internationalization
-Documentação do Pacote: https://www.ctan.org/pkg/babel
+Wiki: [https://en.wikibooks.org/wiki/LaTeX/Internationalization](https://en.wikibooks.org/wiki/LaTeX/Internationalization) Documentação do Pacote: [https://www.ctan.org/pkg/babel](https://www.ctan.org/pkg/babel)
 
 ### Incluindo Arquivos Latex
+
 Podemos incluir arquivos Latex em outros arquivos Latex e esta é uma das principais forças da plataforma. Geralmente, para livros, os capítulos são separados cada um em seu próprio arquivo e o arquivo principal os importa e define a formatação como um todo.
 
 OS principais comandos de inclusão são `\include` e `\input`. Estes dois comandos diferem da seguinte forma:
-- O comando `\include` efetua a inclusão do arquivo referenciado e adiciona um page break antes e depois de seu conteúdo, o que o torna perfeito para capítulos de livros. Uma nota importante é que um arquivo incluído via `\include` não pode executar `\include` em outros arquivos (mas pode usar um `\input`).
-- O comando `\input` inclui o conteúdo de um arquivo tex referenciado (sem adicionar page breaks), o que o torna uma boa opção para subseções de grandes artigos. Um arquivo incluso via `\input` pode efetuar `\input` em outros arquivos.
+
+* O comando `\include` efetua a inclusão do arquivo referenciado e adiciona um page break antes e depois de seu conteúdo, o que o torna perfeito para capítulos de livros. Uma nota importante é que um arquivo incluído via `\include` não pode executar `\include` em outros arquivos \(mas pode usar um `\input`\).
+* O comando `\input` inclui o conteúdo de um arquivo tex referenciado \(sem adicionar page breaks\), o que o torna uma boa opção para subseções de grandes artigos. Um arquivo incluso via `\input` pode efetuar `\input` em outros arquivos.
 
 ### Título do Sumário
+
 Por padrão, o sumário é nomeado em inglês como "Table of Contents". Para alterar o título do sumário, devemos utilizar o comando:
 
-    \renewcommand{\contentsname}{Sumário}
+```text
+\renewcommand{\contentsname}{Sumário}
+```
 
 ### Estrutura básica de projeto
 
-
 ### Tabelas
-https://en.wikibooks.org/wiki/LaTeX/Tables
 
-    \begin{tabular}{|l|l|p{10cm}|}
+[https://en.wikibooks.org/wiki/LaTeX/Tables](https://en.wikibooks.org/wiki/LaTeX/Tables)
+
+```text
+\begin{tabular}{|l|l|p{10cm}|}
+```
 
 O Package tabularx ajuda na construção de tabelas, adicionando um parâmetro x que irá extender o tamanho da célula tanto quanto necessário pelo texto contido nela, evitando o uso do parâmetro `p` e sua definição manual de tamanho.
 
-```
+```text
 \usepackage{tabularx}
 \begin{table}[H]
  \centering
@@ -100,27 +107,28 @@ O Package tabularx ajuda na construção de tabelas, adicionando um parâmetro x
  \end{tabularx}
 \end{table}
 ```
-### Adicionando Imagens
-https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics
 
+### Adicionando Imagens
+
+[https://en.wikibooks.org/wiki/LaTeX/Importing\_Graphics](https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics)
 
 ### Símbolos Matemáticos
-http://artofproblemsolving.com/wiki/index.php?title=LaTeX:Symbols
+
+[http://artofproblemsolving.com/wiki/index.php?title=LaTeX:Symbols](http://artofproblemsolving.com/wiki/index.php?title=LaTeX:Symbols)
 
 ### Floats
-Pode acontecer com imagens e tabelas
-\usepackage{float}
-\begin{table}[H]
+
+Pode acontecer com imagens e tabelas \usepackage{float} \begin{table}\[H\]
 
 ## Pacotes
-https://en.wikibooks.org/wiki/LaTeX/Package_Reference
 
+[https://en.wikibooks.org/wiki/LaTeX/Package\_Reference](https://en.wikibooks.org/wiki/LaTeX/Package_Reference)
 
 ### Utilidades
 
 #### Todo
 
-``` latex
+```text
 \usepackage{todonotes}
 \todo{Refazer esta secao completamente\ldots}
 \listoftodos
@@ -128,19 +136,23 @@ https://en.wikibooks.org/wiki/LaTeX/Package_Reference
 
 ### Memoir
 
-https://ctan.org/pkg/memoir
+[https://ctan.org/pkg/memoir](https://ctan.org/pkg/memoir)
 
 ## Latex for Source Code
+
 Para importar Source code para o Latex, usamos listings.
 
 ### Incluir o Pacote Listings
+
 Para incluir o pacote, usamos a seguinte instrução:
 
-    \usepackage{listings}
+```text
+\usepackage{listings}
+```
 
 ### Incluir código estático
 
-```
+```text
 \begin{lstlisting}
 public class App {
    public static void main(String[] args) {
@@ -165,19 +177,23 @@ public class App {
 
 Inclui o conteúdo de um arquivo diretamente no documento no momento da compilação, sendo extremamente útil para propagar alterações feitas no código diretamente para a documentação.
 
-    \lstinputlisting[language=Java]{/home/miguel/dev/java-pragmatico/src/main/java/com/miguelmf/pragmatico/capitulo1/primitivos/Primitivos.java}
+```text
+\lstinputlisting[language=Java]{/home/miguel/dev/java-pragmatico/src/main/java/com/miguelmf/pragmatico/capitulo1/primitivos/Primitivos.java}
+```
 
 É possível também especificar um escopo:
 
-    \lstinputlisting[language=Python, firstline=37, lastline=45]{source_filename.py}
+```text
+\lstinputlisting[language=Python, firstline=37, lastline=45]{source_filename.py}
+```
 
-Fonte: https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
-
+Fonte: [https://en.wikibooks.org/wiki/LaTeX/Source\_Code\_Listings](https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings)
 
 ### Aparência do Código
+
 É possível configurar a aparência do código com diversas configurações. Existem diversas [configurações disponíveis](https://pt.sharelatex.com/learn/Code_listing) mas, um exemplo, é conforme abaixo:
 
-```
+```text
 \usepackage{listings}
 \usepackage{color}
 
@@ -195,7 +211,7 @@ Fonte: https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
   deletekeywords={...},            % if you want to delete keywords from the given language
   escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-  frame=single,	                   % adds a frame around the code
+  frame=single,                       % adds a frame around the code
   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
   keywordstyle=\color{blue},       % keyword style
   language=Octave,                 % the language of the code
@@ -209,7 +225,7 @@ Fonte: https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings
   showtabs=false,                  % show tabs within strings adding particular underscores
   stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
   stringstyle=\color{mymauve},     % string literal style
-  tabsize=2,	                   % sets default tabsize to 2 spaces
+  tabsize=2,                       % sets default tabsize to 2 spaces
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
 ```
@@ -222,38 +238,44 @@ Existe um pacote chamado [Algorithms](https://en.wikibooks.org/wiki/LaTeX/Algori
 
 ### Inclusão de Código simplificada
 
-    % MACROS
-    % Comando com 3 argumentos: Diretório do Projeto, Pacote e Arquivo
-    % \includecode{/home/miguel/dev/java-pragmatico/src/main/java/com/miguelmf/pragmatico/}{capitulo1/primitivos/}{Primitivos.java}
-    \newcommand{\includecode}[3]{\lstinputlisting[caption=#3, escapechar=, language=Java]{#1#2#3}}
+```text
+% MACROS
+% Comando com 3 argumentos: Diretório do Projeto, Pacote e Arquivo
+% \includecode{/home/miguel/dev/java-pragmatico/src/main/java/com/miguelmf/pragmatico/}{capitulo1/primitivos/}{Primitivos.java}
+\newcommand{\includecode}[3]{\lstinputlisting[caption=#3, escapechar=, language=Java]{#1#2#3}}
 
-    % Fixando o diretório do projeto diretamente em um novo macro, para facilitar o uso.
-    % \includeexample{capitulo1/primitivos/}{Primitivos.java}
-    \newcommand{\includeexample}[2]{\includecode{/home/miguel/dev/java-pragmatico/src/main/java/com/miguelmf/pragmatico/}{#1}{#2}}
-
+% Fixando o diretório do projeto diretamente em um novo macro, para facilitar o uso.
+% \includeexample{capitulo1/primitivos/}{Primitivos.java}
+\newcommand{\includeexample}[2]{\includecode{/home/miguel/dev/java-pragmatico/src/main/java/com/miguelmf/pragmatico/}{#1}{#2}}
+```
 
 ### Referência Completa
 
 Precisa do pacote Hyperref.
 
-    % Comando recebe label de seção como argumento e gera uma referência completa
-    % Ex: \fullref{sec:configurando_ambiente} => 3.1 Configurando ambiente Java
-    \newcommand{\fullref}[1]{\hyperref[#1]{\ref*{#1}\space\nameref*{#1}}}
+```text
+% Comando recebe label de seção como argumento e gera uma referência completa
+% Ex: \fullref{sec:configurando_ambiente} => 3.1 Configurando ambiente Java
+\newcommand{\fullref}[1]{\hyperref[#1]{\ref*{#1}\space\nameref*{#1}}}
+```
 
 ### Operadores Java
 
-    % Comando facilita a inclusao de um OR em Java
-    % boolean teste1 = 2 == 1 \javaor 1 == 1 \newline => boolean teste1 = 2 == 1 || 1 == 1 
-    \newcommand{\javaor}{\textbar\textbar\space}
+```text
+% Comando facilita a inclusao de um OR em Java
+% boolean teste1 = 2 == 1 \javaor 1 == 1 \newline => boolean teste1 = 2 == 1 || 1 == 1 
+\newcommand{\javaor}{\textbar\textbar\space}
 
-    % Comadnos para less than, less than or equal, greater than, greater than or equal.
-    \newcommand{\lt}{\textless\space}
-    \newcommand{\lte}{\textless = \space}
-    \newcommand{\gt}{\textgreater\space}
-    \newcommand{\gte}{\textgreater = \space}
+% Comadnos para less than, less than or equal, greater than, greater than or equal.
+\newcommand{\lt}{\textless\space}
+\newcommand{\lte}{\textless = \space}
+\newcommand{\gt}{\textgreater\space}
+\newcommand{\gte}{\textgreater = \space}
+```
+
 ### Configurações Básicas
 
-```
+```text
     \documentclass{article}
 
     \usepackage[utf8]{inputenc}
@@ -308,25 +330,26 @@ Precisa do pacote Hyperref.
     \maketitle
     \pagenumbering{arabic}
     \newpage
-    
+
     \tableofcontents
     \newpage
-    
+
     \include{./tex/introducao}
     \include{./tex/pesquisa}
     \include{./tex/conclusao}
-    
+
     \printbibliography[title={Referências}]
     \listoftodos 
-    
+
     \end{document}
 ```
 
 ## Referências e links
 
-- [Wikipedia - Latex](https://pt.wikipedia.org/wiki/LaTeX)
-- [Estrutura de documento](https://en.wikibooks.org/wiki/LaTeX/Document_Structure )/
-- [Referência cruzada](https://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing)
-- [Biografias](https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management)
-- [Formatação de parágrafos](https://pt.sharelatex.com/learn/Paragraph_formatting)
-- [Internacionalização](https://en.wikibooks.org/wiki/LaTeX/Internationalization)
+* [Wikipedia - Latex](https://pt.wikipedia.org/wiki/LaTeX)
+* [Estrutura de documento](https://en.wikibooks.org/wiki/LaTeX/Document_Structure%20)/
+* [Referência cruzada](https://en.wikibooks.org/wiki/LaTeX/Labels_and_Cross-referencing)
+* [Biografias](https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management)
+* [Formatação de parágrafos](https://pt.sharelatex.com/learn/Paragraph_formatting)
+* [Internacionalização](https://en.wikibooks.org/wiki/LaTeX/Internationalization)
+
