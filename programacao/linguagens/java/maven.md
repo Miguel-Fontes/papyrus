@@ -18,49 +18,11 @@ mvn archetype:generate -DgroupId=com.miguelmf.mvn -DartifactId=mvn-playground -D
 
 Este comando irá criar um novo projeto chamado mvn-playground no diretório de trabalho atual. Chamar `mvn archetype:generate` sem parâmetros irá fazer com que o maven incie o modo interativo, onde o usuário terá a oportunidade de selecionar as opções respondendo à perguntas.
 
-Para efetuar o build de um projeto com o Maven, usamos o comando
+Para efetuar o empacotamento de um projeto com o Maven, usamos o comando
 
 ```text
 mvn package
 ```
-
-## Maven Lifecycles
-
-O maven possui uma série de Lifecycles composto de phases. Os principais são clean, default e site. Um plugin, é uma coleção de Goals. Goals são as ações executadas pelo Maven sobre o projeto. Package é uma fase \(phase\) e não um goal. É um passo no ciclo de build, que é uma sequência ordenada de fases. Este comando irá executar as seguintes phases:
-
-1. validate
-2. generate-sources
-3. process-sources
-4. generate-resources
-5. process-resources
-6. compile
-
-Após o término do build, podemos testar a aplicação com o seguinte comando:
-
-```text
-java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
-```
-
-### Maven Phases e Lyfecycles
-
-Uma lista incompleta das fases maven:
-
-* validate
-* compile
-* test
-* package
-* integration-test
-* verify
-* install
-* deploy
-
-E seus lifecycles:
-
-* default
-* clean
-* site
-
-Fases são mapeadas para goals \(um goal é contido em uma fase\). Os goals específicos que serão executados por fase depende do tipo de packaging do projeto. Por exemplo, o comando package executa `jar:jar` se o tipo do projeto é Jar e `war:war` se o projeto for war.
 
 ## Diretórios
 
@@ -186,49 +148,62 @@ Desta forma, o Maven irá excluir a dependência indicada, evitando o conflito.
 
 ## Maven lifecycles, phases e goals
 
-Um lifecycle é um conjunto de passos ou estágios que passamos quando efetuamos o build de um artefato. EStes passos ou estágios são chamados de phases.
+Um lifecycle é um conjunto de passos ou estágios que passamos quando efetuamos o build de um artefato. Estes passos ou estágios são chamados de phases.
 
-Os lifecycles padrão do maven são: default, clean e site.
-
-Cada phase possui um ou mais goals associados. Um Goal é uma ação que será executada durante o phase.
-
-Quando executamos o comando maven como o abaixo, estamos executando uma phase.
+Os lifecycles padrão do maven são: default, clean e site. Cada phase possui um ou mais goals associados. Um Goal é uma ação que será executada durante o phase. Quando executamos o comando maven como o abaixo, estamos executando uma phase.
 
 ```text
 mvn clean
 ```
 
-Neste caso, o maven irá identificar no lifecycle, todas as phases anteriores e as executar também. Para verificar os dados de uma phase, podemos usar o comando:
+Neste caso, o maven irá identificar no lifecycle, todas as phases anteriores e as executar também. Para verificar os dados de um phase, podemos usar o comando:
 
 ```text
 mvn help:describe -Dcmd=deploy
 ```
 
-De acordo com a configuração de packaging do projeto \(Ex: Jar\) o maven utiliza os plugins corretos para montar o projeto.
+Uma lista incompleta das fases maven:
 
-## Principais Phases
+* validate
+* compile
+* test
+* package
+* integration-test
+* verify
+* install
+* deploy
 
-### Compile
+E seus lifecycles:
+
+* default
+* clean
+* site
+
+Fases são mapeadas para goals \(um goal é contido em uma fase\). Os goals específicos que serão executados por fase depende do tipo de packaging do projeto. Por exemplo, o comando package executa `jar:jar` se o tipo do projeto é Jar e `war:war` se o projeto for war.
+
+### Principais Phases
+
+#### Compile
 
 Compila o código fonte Java em arquivos class
 
-### Test-Compile
+#### Test-Compile
 
 Compila o código fonte dos arquivos de teste
 
-### Test
+#### Test
 
 Executa os arquivos de teste
 
-### Package
+#### Package
 
 Busca o código compilado e o empacota no formato de distribuição indicado no arquivo pom.xml
 
-### Install
+#### Install
 
 Instala o package no reposistório local, para uso como uma dependência em outros projetos localmente.
 
-### Deploy
+#### Deploy
 
 Copia o pacote final para um repositório final, compartilhando com outros developers e projetos.
 
