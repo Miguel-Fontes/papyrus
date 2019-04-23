@@ -1,5 +1,6 @@
 # Javadoc
 
+
 ## Introdução
 
 Javadoc é a principal ferramenta disponível para os desenvolvedores Java construirem documentações detalhadas da API de aplicações. O Javadoc consistente em comentários adicionados na declaração de classes e métodos utilizando sintaxe estruturada. Diversas IDEs conseguem capturar estes comentários e exibir em tempo de desenvolvimento a documentação e, além disto, a ferramenta consegue gerar o clássico site javadoc com todas as informação do código fonte, gerando uma fonte inestimável de informações para os desenvolvedores.
