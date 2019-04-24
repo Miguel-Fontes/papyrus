@@ -19,6 +19,8 @@
     * [Angular 1.0](programacao/linguagens/javascript/angular-1.0.md)
   * [Go](programacao/linguagens/go/README.md)
     * [Primeiros passos](programacao/linguagens/go/primeiros-passos.md)
+  * [Clojure](programacao/linguagens/clojure/README.md)
+    * [Primeiros passos](programacao/linguagens/clojure/primeiros-passos.md)
 
 ## Pesquisa & Redação
 
