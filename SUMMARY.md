@@ -26,3 +26,8 @@
 
 * [Latex](pesquisa-and-redacao/latex.md)
 
+## Cursos
+
+* [Udemy](cursos/udemy/README.md)
+  * [Linux Shell Scripting: A Project-Based Approach to Learning](cursos/udemy/linux-shell-scripting-a-project-based-approach-to-learning.md)
+

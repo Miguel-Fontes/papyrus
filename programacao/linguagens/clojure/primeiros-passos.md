@@ -10,7 +10,7 @@ Notas sobre como iniciar a desenvolver aplicações na linguagem clojure, cobrin
 
 ## Instalação
 
-Para executar aplicações Clojure, é necessário executar os comandos descritos na seção Getting Started do site oficial\[1\], que é basicamente:
+Para executar aplicações Clojure, é necessário executar os comandos descritos na seção Getting Started do site oficial\[[1](https://clojure.org/guides/getting_started)\], que são basicamente:
 
 ```text
 curl -O https://download.clojure.org/install/linux-install-1.9.0.297.sh
