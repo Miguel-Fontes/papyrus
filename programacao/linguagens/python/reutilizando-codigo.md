@@ -148,7 +148,7 @@ py-misc-examples
     └── main.py
 ```
 
-Neste estrutura de diretório, o grande detalhe é a existência do arquivo `__init__.py` em _arithmetic_. Este arquivo é necessário para que o Python trate este diretório como um pacote. Sem ele, a importação utilizando `from arithmetic.operation import Operation` não é possível. Este formato, é chamado de _pacote regular_.
+Neste estrutura de diretório, o grande detalhe é a existência do arquivo `__init__.py` em _arithmetic_. Este arquivo é necessário para que o Python trate este diretório como um pacote. Sem ele, a importação utilizando `from arithmetic.operation import Operation` não seria possível. Este formato, é chamado de _pacote regular_\[1\].
 
 Construída esta estrutura, a importação pode ser feita exatamente como é feito com as bibliotecas padrão do python.
 
@@ -160,5 +160,5 @@ TBD
 
 ## Referências e Links
 
-* \[Python Docs - Packages\]\([https://docs.python.org/3/reference/import.html\#packages](https://docs.python.org/3/reference/import.html#packages)\)
+* \[1\] [Python Docs - Packages](https://docs.python.org/3/reference/import.html#packages)
 
