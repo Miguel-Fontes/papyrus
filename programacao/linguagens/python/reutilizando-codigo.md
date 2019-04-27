@@ -154,7 +154,16 @@ Construída esta estrutura, a importação pode ser feita exatamente como é fei
 
 ### Importanto em outros projetos
 
-Se fosse necessário que outro projeto tivesse acesso à estas mesmas funcionalidades, o módulo _arithmetic_ deveria ser extraído deste projeto, tornando-se um projeto isolado. Feito isto, devemos trabalhar com uma configuração do Python: o `PYTHONPATH.`
+Se fosse necessário que outro projeto tivesse acesso à estas mesmas funcionalidades, o módulo _arithmetic_ deveria ser extraído deste projeto, tornando-se um projeto isolado. 
+
+```text
+ arithmetic
+   ├── basic.py
+   ├── __init__.py
+   └── operation.py
+```
+
+Feito isto, devemos trabalhar com uma configuração do Python: o `PYTHONPATH`\[2\].
 
 O `PYTHONPATH` é uma variável de ambiente similar à `PATH`, seu valor consiste de uma lista de diretórios utilizada na busca de módulos python quando uma instrução `import` é avaliada. Neste caso, deveríamos incluir nesta variável o local do módulo _arithmetic_ e, com isso, poderíamos importá-lo em qualquer projeto.
 
