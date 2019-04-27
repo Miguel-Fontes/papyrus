@@ -175,4 +175,5 @@ TBD
 
 * \[1\] [Python Docs - Packages](https://docs.python.org/3/reference/import.html#packages)
 * \[2\] [Python Docs - PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH)
+* \[3\] [Código exemplo em repositório py-playground](https://github.com/Miguel-Fontes/py-playground/tree/master/importing)
 
