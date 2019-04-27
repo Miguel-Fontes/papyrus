@@ -21,6 +21,8 @@
     * [Primeiros passos](programacao/linguagens/go/primeiros-passos.md)
   * [Clojure](programacao/linguagens/clojure/README.md)
     * [Primeiros passos](programacao/linguagens/clojure/primeiros-passos.md)
+  * [Python](programacao/linguagens/python/README.md)
+    * [Reutilizando código](programacao/linguagens/python/reutilizando-codigo.md)
 
 ## Pesquisa & Redação
 

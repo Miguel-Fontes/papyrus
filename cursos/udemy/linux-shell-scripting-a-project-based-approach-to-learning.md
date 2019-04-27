@@ -32,19 +32,19 @@ drwxrwxr-x 3 miguel miguel 4096 abr 22 08:41 programacao
 -rw-rw-r-- 1 miguel miguel 1173 abr 24 19:55 SUMMARY.md
 ```
 
-* O clássico comando `chmod` altera as permissões de arquivo, e recebe como argumento um numero criptico (`chmod 755`). Este número, é claro, significa os acessos que estamos definindo no arquivo, e é construído mapeando os caracteres `rwx` ao números `r = 4; w = 2; x = 1`. Considerando estes valores:
-    * 7   = 4 + 2 + 1 = r+w+x
-    * 5   = 4 + 1     = r + x
-    * 755 = rwxr-xr-x
+* O clássico comando `chmod` altera as permissões de arquivo, e recebe como argumento um numero criptico \(`chmod 755`\). Este número, é claro, significa os acessos que estamos definindo no arquivo, e é construído mapeando os caracteres `rwx` ao números `r = 4; w = 2; x = 1`. Considerando estes valores:
+  * 7   = 4 + 2 + 1 = r+w+x
+  * 5   = 4 + 1     = r + x
+  * 755 = rwxr-xr-x
 * A grande força do bash é poder utilizar todas os programas de linha de comando que temos disponíveis no Linux.
 * Variáveis podem começar com underlines ou uma letra. Iniciar o nome de uma variável com um número é inválido:
 
-| Válido    | Inválido  |
-|-----------|-----------|
-|  WORD     | 1WORD     |
-| _WORD     | WORD-WORD |
-| WORD_WORD |           |
-| WORD10    |           |
+| Válido | Inválido |
+| :--- | :--- |
+| WORD | 1WORD |
+| \_WORD | WORD-WORD |
+| WORD\_WORD |  |
+| WORD10 |  |
 
 * Outro conceito importante é que usar aspas duplas ao redor de varáveis `"` faz com que o valor de uma variável seja expandido, enquanto aspas simples `'` não.
   * `echo "$WORD"`: exibirá o  valor da variável `WORD`.
