@@ -69,7 +69,7 @@ drwxrwxr-x 3 miguel miguel 4096 abr 22 08:41 programacao
 ### Aula 12
 
 * A expressão utilizada em `if` em shell scripts varia, e algumas destas formas não são intuitivas à um iniciante. 
-* Uma forma de avaliação lógica muito usada, depende do uso de brackets `[]` como em `if [[ "${UID}" -eq 0 ]]; then... else`... `fi`. 
+* Uma forma de avaliação lógica muito usada, depende do uso de brackets `[]` como em `if [[ "${UID}" -eq 0 ]]; then... else... fi`. 
 * Existem duas formas possíveis:
   * Single bracket: quando escrevemos o a expressão condicional no `if` com um único bracket estamos, na realidade, utilizando o comando `test` \[[8](https://www.shellscript.sh/test.html)\] para avaliar a expressão lógica.
   * Double bracket: esta forma utiliza o novo comando `test` que possui diversas melhorias, mas não é compátivel com qualquer shell, apenas o Bash\[[5](https://pt.wikipedia.org/wiki/Bash)\], Z shell\[[6](https://en.wikipedia.org/wiki/Z_shell)\], e Korn\[[7](https://pt.wikipedia.org/wiki/Korn_Shell)\].
@@ -193,7 +193,6 @@ showNewUserInformation() {
   echo "User name: ${USER_NAME}"
   echo "Initial password: ${PASSWORD}"
   echo "Hostname: ${HOSTNAME}"
-
 }
 
 main() {
@@ -210,7 +209,7 @@ main
 
 ## Seção 4
 
-Próximos capítulos
+Próximos capítulos!
 
 ## Referências e links
 
@@ -222,4 +221,4 @@ Próximos capítulos
 6. Korn shell: [https://pt.wikipedia.org/wiki/Korn\_Shell](https://pt.wikipedia.org/wiki/Korn_Shell)
 7. Z shell: [https://en.wikipedia.org/wiki/Z\_shell](https://en.wikipedia.org/wiki/Z_shell)
 8. Comando test: [https://www.shellscript.sh/test.html](https://www.shellscript.sh/test.html)
-9. 
+
