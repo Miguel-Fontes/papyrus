@@ -209,9 +209,220 @@ main
 
 ## Seção 4
 
-Próximos capítulos!
+### Aula 17
 
-## Referências e links
+* Para obtermos um número aleatório no bash, precisamos apenas obter o valor da variável de ambiente `${RANDOM}`.
+* No Bash\[[5](https://pt.wikipedia.org/wiki/Bash)\], podemos usar o caractere `!` para acessar os designadores de evento\[[9](https://linuxacademy.com/blog/linux/event-designators-bash-basics/)\]. Um exemplo, é executar `!v`: este comando irá reexecutar o último comando iniciando em `v`\(`vim ./file.sh` seria um match, por exemplo\).
+* O Linux tem uma representação de data chamada Era Linux\[[10](https://pt.wikipedia.org/wiki/Era_Unix)\] que ficou conhecida como Unix Epoch ou apenas Epoch. Esta representação de data é basicamente um inteiro indicando a quantidade de segundos que se passaram desde 01/01/1970 00:00:00 \(UTC\).
+* Um checksum\[[12](https://pt.wikipedia.org/wiki/Soma_de_verifica%C3%A7%C3%A3o)\] é um valor numérico gerado para um bloco de dados, que e relativamente único. 
+  * É muito usado para validar se um arquivo transferido não foi corrompido durante o processo, onde comparamos um checksum gerado localmente com o publicado pela parte que disponibilizou o arquivo.
+  * Existem vários algoritmos de geração de checksums disponíveis\[[12](https://pt.wikipedia.org/wiki/Soma_de_verifica%C3%A7%C3%A3o)\]: 
+    * cksum
+    * md5sum
+    * sha1sum
+    * sha224sum
+    * sha256sum
+    * sha384sum
+    * sha512sum
+    * sum
+* Uma forma bastante básica mas funcional de construir passwords pseudo aleatórios é com o comando `date +%s%N | sha256sum | head -c32`. 
+  * date +%s%N: a data no formato Epoch \(%s\) junto dos nanosegundos \(%N\)
+  * sha256sum: transforma o input em um checksum sha256
+  * head -c32: obtem os primeiros 32 caracteres do input.
+* O comando `fold` executa um wrap em cada linha recebida como input para que ela tenha um tamanho especificado.
+* O comando `shuf` imprime uma permutação aleatória dos dados recebidos como input.
+
+```bash
+$ echo "abc" | fold -w1
+a
+b
+c
+
+$ echo "abc" | fold -w1 | shuf
+c
+a
+b
+```
+
+### Aula 18
+
+* Argumentos são os valores passados para um programa / script.
+* Estes valores são acessados no script através dos parâmetros posicionais: um conjunto de variáveis numeradas que indicam a posição do argumento. Para acessá-los:`${1}`, `${2}`, `${3}` e assim por diante.
+* Na posição $`{0}` estará armazenado o caminho completo para o script. Este valor é bastante usado junto do comando `basename` para obter apenas o nome do script. Esta combinação é muito útil ao criar textos de ajuda.
+
+```bash
+#!/bin/bash
+
+declare -r DEVICE_ID=$1
+declare -r USAGE="
+USAGE: $(basename $0) <DEVICE_ID>
+       $(basename $0) 15
+DEVICE_ID
+  The device id, identifiable through 'xinput list'
+"
+
+help() {
+  echo "$USAGE"
+}
+```
+
+* O comando `hash` é um built-in do linux usado para armazenar o local dos programas executados recentemente, criando uma espécie de [cache](https://pt.wikipedia.org/wiki/Cache). É possível limpar esta tabela executando`hash -r`.
+* O parâmetro `${#}` armazena a quantidade de argumentos passados ao programa.
+* O manual do bash, acessível através de `man bash` possui muita informação importante para a escrita de scripts.
+* Da mesma forma, é possível acessar o manual de diversos comandos como o `for` uma vez que, no universo shell script, tudo é um programa e não um keyword como em uma linguagem de programação. Experimente executar `man for`.
+* A sintaxe do for loop em shell é bastante similar, mas possui suas nuances. A estrutura padrão é listada abaixo.
+
+```bash
+#!/bin/bash
+
+for X in 1 2 3 4 5; do
+  echo "${X}"
+done
+```
+
+* O valores deverão ser expandidos para que o `for` funcione corretamente.
+* Para criar um for que execute uma vez para cada argumento recebido, use `${@}`. Este parâmetro possui a lista de argumentos passada na execução \(ver seção _special parameters_ do manual do bash\).
+
+### Aula 19
+
+* Podemos usar o loop na forma `while`. É útil, como sempre, quando queremos repetir a execução enquanto um predicado manter-se verdadeiro.
+
+```bash
+#!/bin/bash
+
+X=1
+while [[ "${X}" -eq 1 ]]; do
+  echo "X = ${X}"
+  X=7
+done
+```
+
+* O comando `shift n` altera os paràmetros posicionais, descartando uma quantidade n da esquerda.  Se nenhum argumento for informado ao comando `shift`, o default 1 é assumido.
+  * No caso da execução de `shift 1` ou `shift`, o valor de `${1}` é descartado, e passa a ser o valor de `${2}`.
+
+{% code-tabs %}
+{% code-tabs-item title="shift-test.sh" %}
+```bash
+#!/bin/bash
+
+while [[ "$#" -gt 0 ]]; do
+  echo "> $@"
+  shift
+done
+
+# Outputs...
+# $ ./shift-test.sh 1 2 3 4 5
+# > 1 2 3 4 5
+# > 2 3 4 5
+# > 3 4 5
+# > 4 5
+# > 5
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+### Aula 20 e 21
+
+* Outro exercício onde tenho que escrever um script para criação de usuários.
+  * O arquivo deve ser chamado _add-new-local-user.sh_
+  * Garante que será executado com privilégios de superuser \(root\). Encerra com status 1 caso negativo.
+  * Exibe uma mensagem similar à que seria exibida em uma página man se o usuário não informar o nome da conta, encerrando a execução com sstatus 1.
+  * Usa o primeiro argumento como o nome para a conta. Qualquer outro\(s\) argumento\(s\) serão usados como comentários da conta.
+  * Gera uma nova senha automaticamente para a conta.
+  * Informa ao usuário se houve erro na criação por algum motivo. Neste caso, encerra com status 1.
+  * Exibe o nome de usuário, senha e host em que a conta foi criada.
+* Extendendo no que havia criado no exercício anterior, cheguei na solução abaixo. Foram poucas alterações, na realidade. 
+* Note o uso da forma `${@:2}` para buscar todos os parametros após o primeiro. Trata-se de um [range](https://wiki.bash-hackers.org/scripting/posparams#range_of_positional_parameters), onde estamos indicando que faremos a expansão de todos os parâmetros à partir do segundo \(`${@:INICIO}`\).
+
+{% code-tabs %}
+{% code-tabs-item title="add-new-local-user.sh" %}
+```bash
+#!/bin/bash
+
+declare LOGIN=$1
+declare COMMENTS="${@:2}"
+declare PASSWORD=$(date +%s%N | sha256sum | head -c32)
+declare -r USAGE="
+NAME
+    $(basename $0) - creates a new user
+
+SYNOPSIS
+    $(basename $0) [LOGIN] [COMMENTS]...
+    $(basename $0) user \"New application user\"
+    $(basename $0) user \"New application user\" \"Uses foo application\"
+
+DESCRIPTION
+    Creates a new user on the host, with a given LOGIN name and COMMENTs that describe who is the user and what kind of access it uses.
+
+    Exit status:
+        0   if OK,
+        1   if an error has ocurred.
+
+AUTHOR
+    Written by Miguel Fontes, for the Udemy Linux Shell Scripting: A Project-Based Approach to Learning course.
+
+SEE ALSO
+    Course page at <https://www.udemy.com/linux-shell-scripting-projects/learn/v4>
+"
+guardValidParameters() {
+  if [[ -z "$LOGIN" ]]; then
+    echo "ERROR: Mandatory LOGIN argument was not given!"
+    echo "${USAGE}"
+    exit 1
+  fi
+}
+
+guardIsSuperUser() {
+  if [[ "${UID}" -ne 0 ]]; then
+    echo "ERROR: Current user is not root! Please, try again with sudo or as root"
+    exit 1
+  fi
+}
+
+createNewUser() {
+  useradd -c "${COMMENTS}" -m "${LOGIN}"
+
+  if [[ "${?}" -ne 0 ]]; then
+    echo "ERROR: There was an error on the user creation process! Please, review the given arguments and try again!"
+    exit 1
+  fi
+}
+
+setDefaultPassword() {
+  PASSWORD=$(date +%s%N | sha256sum | head -c32)
+  echo "${LOGIN}:${PASSWORD}" | chpasswd
+  passwd -e "${LOGIN}"
+}
+
+showNewUserInformation() {
+  echo "..."
+  echo "User [${LOGIN}] created successfully! The user will be prompted to change his password on first login."
+  echo "Login: ${LOGIN}"
+  echo "Initial password: ${PASSWORD}"
+  echo "Hostname: ${HOSTNAME}"
+}
+
+main() {
+  guardValidParameters
+  guardIsSuperUser
+  createNewUser
+  setDefaultPassword
+  showNewUserInformation
+  exit 0
+}
+
+main
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+## Seção 5
+
+### Aula 22
+
+Quase lá!
+
+## Referências
 
 1. Docker:[ https://www.docker.com/](https://www.docker.com/)
 2. Permissões de arquivo: [https://help.ubuntu.com/community/FilePermissions](https://help.ubuntu.com/community/FilePermissions)
@@ -221,4 +432,15 @@ Próximos capítulos!
 6. Korn shell: [https://pt.wikipedia.org/wiki/Korn\_Shell](https://pt.wikipedia.org/wiki/Korn_Shell)
 7. Z shell: [https://en.wikipedia.org/wiki/Z\_shell](https://en.wikipedia.org/wiki/Z_shell)
 8. Comando test: [https://www.shellscript.sh/test.html](https://www.shellscript.sh/test.html)
+9. Bash event designators basics: [https://linuxacademy.com/blog/linux/event-designators-bash-basics/](https://linuxacademy.com/blog/linux/event-designators-bash-basics/)
+10. Era Linux: [https://pt.wikipedia.org/wiki/Era\_Unix](https://pt.wikipedia.org/wiki/Era_Unix)
+11. GNU Bash Event Designators: [https://www.gnu.org/software/bash/manual/html\_node/Event-Designators.html](https://www.gnu.org/software/bash/manual/html_node/Event-Designators.html)
+12. Checksum: [https://pt.wikipedia.org/wiki/Soma\_de\_verifica%C3%A7%C3%A3o](https://pt.wikipedia.org/wiki/Soma_de_verifica%C3%A7%C3%A3o)
+13. Shell Scripting Tutorial - For loops: [https://www.shellscript.sh/loops.html](https://www.shellscript.sh/loops.html)
+14. Bash Hackers Wiki - Arrays: [https://wiki.bash-hackers.org/syntax/arrays](https://wiki.bash-hackers.org/syntax/arrays)
+15. Bash Hackers Wiki - Range Of Positional Parameters: [https://wiki.bash-hackers.org/scripting/posparams\#range\_of\_positional\_parameters](https://wiki.bash-hackers.org/scripting/posparams#range_of_positional_parameters)
+
+## Relacionados
+
+* [Shell Script](../../programacao/linguagens/shell-script.md)
 
