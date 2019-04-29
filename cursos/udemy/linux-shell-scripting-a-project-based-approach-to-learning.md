@@ -420,7 +420,34 @@ main
 
 ### Aula 22
 
-Quase lá!
+* É possível redirecionar o standard input e standard output entre arquivos e programas. Isto é feito com os operadores `>` e `<`.
+
+```bash
+$ echo "secret" > password
+$ cat password
+secret
+$ sudo paasswd --stdin einstein < password
+Changing password for user einstein
+```
+
+* Note que os operadores `>` e `<` sobrescrevem os conteúdos de um arquivo, quando usados desta forma. Caso este não seja o comportamento desejado, use os operadores de append `>>` e `<<`.
+
+```bash
+$ echo "secret" > password
+$ echo "abc,123" > password
+$ cat password
+abc,123
+$ echo "secret" > password
+$ echo "abc,123" >> password
+secret
+abc,123
+```
+
+
+
+### Aula 23
+
+Ainda não!
 
 ## Referências
 
