@@ -5,7 +5,8 @@
 ## Programação
 
 * [Linguagens](programacao/linguagens/README.md)
-  * [Shell Script](programacao/linguagens/shell-script.md)
+  * [Shell Script](programacao/linguagens/shell-script/README.md)
+    * [Acessando APIs Rest](programacao/linguagens/shell-script/acessando-apis-rest.md)
   * [Java](programacao/linguagens/java/README.md)
     * [Maven](programacao/linguagens/java/maven.md)
     * [JUnit5](programacao/linguagens/java/junit5.md)

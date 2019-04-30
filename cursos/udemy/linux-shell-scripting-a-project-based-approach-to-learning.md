@@ -469,5 +469,5 @@ Ainda não!
 
 ## Relacionados
 
-* [Shell Script](../../programacao/linguagens/shell-script.md)
+* [Shell Script](../../programacao/linguagens/shell-script/)
 
