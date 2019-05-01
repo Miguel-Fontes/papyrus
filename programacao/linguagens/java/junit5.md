@@ -604,207 +604,153 @@ Podemos também declarar extensões e tags em interfaces e estes serão herdados
 interface TimeExecutionLogger { }
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Em nossa classe:
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+class TestInterfaceDemo implements TestLifecycleLogger,
+        TimeExecutionLogger, TestInterfaceDynamicTestsDemo {
+
+    @Test
+    void isEqualValue() {
+        assertEquals(1, 1, "is always equal");
+    }
+
+}
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Esta classe irá herdar todos os detalhes da interface. Isto é
+
+### Testes com Repetição
+
+É possível repetir um teste diversas vezes através da anotação `@RepeatedTest`, passando a quantidade de vezes que o teste deve ser repetir. O teste abaixo, irá se repetir 10 vezes.
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+@RepeatedTest(10)
+void repeatedTest() {
+    // ...
+}
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Podemos definir um nome de exibição para as repetições através do atributo `name` da anotação `@RepeatedTest`. Existem alguns placeholders que podemos utilizar para ajudar na identificação:
+
+* {displayName}: nome do teste
+* {currentRepetition}: repetição atual
+* {totalRepetitions}: total de repetições.
+
+O nome default para este tipo de testes serã "repetition {currentRepetition} of {totalRepetitions}". Para ter acesso à estes dados programaticamente, é possível injetar uma instância de `RepetitionInfo`.
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+@DisplayName("deve suportar 5 valores")
+@RepeatedTest(value = 5, name = "repetição {currentRepetition}/ {totalRepetitions}")
+void deveSuportar5Valores(RepetitionInfo repetitionInfo) {
+    lista.add("valor " + repetitionInfo.getCurrentRepetition())
+}
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Existem muitos outros exemplos na [documentação oficial](http://junit.org/junit5/docs/current/user-guide/#writing-tests-repeated-tests-examples).
+
+### Testes Parametrizáveis
+
+Testes parametrizáveis são testes que podem receber valores como argumentos. Estes testes são anotados com `@ParameterizedTest` e uma anotação indicando a fonte de dados como, por exemplo, `@ValueSource` onde, esta segunda anotação, indica os valores que serão passados como argumento para o teste.
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+@ParameterizedTest
+@ValueSource(strings = { "Hello", "World" })
+void testWithStringParameter(String argument) {
+    assertNotNull(argument);
+}
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Para utilizar estes testes, é necessário adicionar o módulo `junit-jupiter-params` como dependencia.
+
+org.junit.jupiterjunit-jupiter-params5.0.0test
+
+Existem diversos sources de valores:
+
+* @ValueSource
+* @EnumSource
+* @MethodSource
+* @CsvSource
+* @CsvFileSource
+* @ArgumentsSource
+
+Um dos mais utilizados,`@MethodSource`, recebe o nome de um método presente na classe de teste. Este método deve ser estático a não ser que a classe esteja anotada com `@TestInstance(Lifecycle.PER_CLASS)`. O retorno deste método deve ser um `Stream`, `Iterable`, `Iterator`, ou array.
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+@ParameterizedTest
+@MethodSource("stringProvider")
+void testWithSimpleMethodSource(String argument) {
+    assertNotNull(argument);
+}
+
+static Stream<String> stringProvider() {
+    return Stream.of("foo", "bar");
+}
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Sobre os demais, consulte a [documentação](http://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests-sources)
+
+É possível definir o nome de exibição dos testes parametrízáveis:
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+@DisplayName("Display name of container")
+@ParameterizedTest(name = "{index} ==> first=''{0}'', second={1}    ")
+@CsvSource({ "foo, 1", "bar, 2", "'baz, qux', 3" })
+void testWithCustomDisplayNames(String first, int second) { }
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Os valores `{0}` e `{1}` são o índice do argumento recebido pelo método.
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+Display name of container ✔
+├─ 1 ==> first='foo', second=1 ✔
+├─ 2 ==> first='bar', second=2 ✔
+└─ 3 ==> first='baz, qux', second=3 ✔
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Veja mais na [documentação](http://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests-display-names).
+
+### Test Templates
+
+A nova versão do JUnit inclui um tipo inteiramente novo de testes: testes dinâmicos. Estes testes são gerados totalmente em tempo de execução e possuem estrutura diferente da usual. Estes testes são criados por TestFactories.
+
+Os testes dinâmicos devem retornar um `Stream`, `Collection` , `Iterable`, `Iterator` de `DynamicNode`. O tipo `DynamicNode` possui duas sublcasses instanciáveis: `DynamicContainer` e `DynamicTest`.
+
+Um `DynamicContainer` é composto de um Display Name e uma lista de nós filho, possibilitando a criação de hierarquias de nós dinâmicos.
+
+Um `DynamicTest` é um caso de testes gerado em tempo de execução e é composto de display name e um `Executable`. Um `Executable` é uma interface funcional, o que significa que podemos construir testes dinâmicos com lambdas.
+
+_Nota_: este é um recurso experimental.
 
 ```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
+class DynamicTestsDemo {
+
+    // Vai resultar em um erro pois o tipo de retorno é inválido!
+    @TestFactory
+    List<String> dynamicTestsWithInvalidReturnType() {
+        return Arrays.asList("Hello");
+    }
+
+    @TestFactory
+    Collection<DynamicTest> dynamicTestsFromCollection() {
+        return Arrays.asList(
+            dynamicTest("1st dynamic test", () -> assertTrue    (true)),
+            dynamicTest("2nd dynamic test", () -> assertEquals  (4, 2 * 2))
+        );
+    }
+
+    @TestFactory
+    Iterable<DynamicTest> dynamicTestsFromIterable() {
+        return Arrays.asList(
+            dynamicTest("3rd dynamic test", () -> assertTrue    (true)),
+            dynamicTest("4th dynamic test", () -> assertEquals  (4, 2 * 2))
+        );
+    }
+
+    // More tests
+
+}
 ```
 
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
-
-```java
-@Tag("timed")
-@ExtendWith(TimingExtension.class)
-interface TimeExecutionLogger { }
-```
+Mais exemplos na [documentação](http://junit.org/junit5/docs/current/user-guide/#writing-tests-dynamic-tests-examples)
 
