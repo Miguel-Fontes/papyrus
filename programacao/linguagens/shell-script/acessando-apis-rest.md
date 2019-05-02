@@ -51,7 +51,7 @@ Se o atributo estivesse em outro nível, poderíamos também "caminhar" pela est
 Por último, enviamos o artefato à ser anexado ao Github release e pronto! O release está no GitHub. Neste último curl, aproveito para buscar a URL do novo artefato do JSON retornado, fazendo um pipe \(`|`\) para o jq e obtendo o campo `url`.
 
 {% hint style="info" %}
-A chave `-s` do comando `curl` é a opção _silent_ fazendo com que ele não exiba mensagens com status da transferência de dados. Quando a chave `-s` -e usada, mensagens de erro também não serão exibidas. Para evitar este comportamento, utilize a opção `-S`.  Esta é uma combinação muito comum e geralmente escrita  como `curl -sS`!
+A chave `-s` do comando `curl` é a opção _silent, que faz_ com que o comando não exiba mensagens. Quando a chave `-s` -e usada, mensagens de erro também não serão exibidas. Para evitar este comportamento, usa-se a opção `-S`_show errors_.  Esta é uma combinação muito comum e geralmente escrita  como `curl -sS`!
 {% endhint %}
 
 ## Referências e links

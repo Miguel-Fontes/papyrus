@@ -420,7 +420,7 @@ main
 
 ### Aula 22
 
-* É possível redirecionar o standard input e standard output entre arquivos e programas. Isto é feito com os operadores `>` e `<`.
+* É possível redirecionar o standard input e standard output entre arquivos e programas. Isto é feito com os operadores de redireção `>` e `<`.
 
 ```bash
 $ echo "secret" > password
@@ -430,7 +430,7 @@ $ sudo paasswd --stdin einstein < password
 Changing password for user einstein
 ```
 
-* Note que os operadores `>` e `<` sobrescrevem os conteúdos de um arquivo, quando usados desta forma. Caso este não seja o comportamento desejado, use os operadores de append `>>` e `<<`.
+* Note que os operadores `>` e `<` sobrescrevem o conteúdo de um arquivo, quando usados desta forma. Caso este não seja o comportamento desejado, use os operadores de append `>>` e `<<`.
 
 ```bash
 $ echo "secret" > password
@@ -447,7 +447,95 @@ abc,123
 
 ### Aula 23
 
-Ainda não!
+* Um descritor de arquivo é um número que referencia um arquivo aberto.
+  * FD 0 - STDIN
+  * FD 1 - STDOUT
+  * FD 2 - STDERR
+* O Linux representa praticamente tudo como um arquivo: seu teclado, que é o STDIN padrão é representado como um arquivo. 
+* O interessante disto é que é possível redirecionar o output de comandos, que normalmente seriam enviados para sua tela, para um arquivo ou outro comando, por exemplo.
+* Se você quiser redirecionar um valor para o STDIN é possível escrever `read X 0< ~/.tmux.conf`. 
+* Quando executamos uma redireção de input sem um descritor, o 0 é usado como default e é por isso que `read X < ~/.tmux.conf` funciona da mesma forma que o exemplo com `0<`.
+* Para redirecionar o output, usamos como antes o operador `>`. O comando `echo "${UID}" > uid` irá salvar o UID em um arquivo chamado uid. 
+* O comando `echo "${UID} 1> uid` funcionará exatamente da mesma forma, pois em um output o descritor 1 é o padrão.
+* Com o STDERR podemos visualiza este comportamento mais explicitamente. Quando redirecionamos o output de um comando `head`, por exemplo.
+
+```bash
+$ head -n1 /arquivo-inexistente 1> head.out
+head: cannot open 'arquivo-inexistente' for reading: No such file or directory
+```
+
+* No exemplo acima tentamos redirecionar a saída do head para um arquivo, mas como o comando retornou um erro, a mensagem foi impressa no terminal pois um erro não é m STDOUT.
+* Para redirecionar um erro, usamos o descritor 2.
+
+```bash
+$ head -n1 /arquivo-inexistente 2> head.err
+$ cat head.err
+head: cannot open 'arquivo-inexistente' for reading: No such file or directory
+```
+
+* Como tempos essa separação de descritores podemos, por exemplo, redirecionar o output para um arquivo e os erros para um segundo.
+
+```bash
+$ head -n1 /arquivo-inexistente >> head.out 2>> head.err
+$ cat head.err
+head: cannot open 'arquivo-inexistente' for reading: No such file or directory
+```
+
+* Uma última forma possível seria gravar ambas as saídas em um mesmo arquivo, o que é possível com a terceira forma `2>&1`.
+
+```bash
+$ head -n1 /arquivo-inexistente >> head.both 2>&1
+$ cat head.both
+head: cannot open 'arquivo-inexistente' for reading: No such file or directory
+```
+
+* A forma `2>&1` faz com que o STDERR\(2\) seja redirecionado para o STDOUT\(1\). Como o STDOUT está sendo redirecionado para o arquivo head.both, ambas as saídas são concatenadas no mesmo aquivo.
+* O caractere `&` faz com que o `1` seja tratado como um descritor. Ao escrever `2>1`, este caractere `1` será tratado como um arquivo.
+* Este redirecionamento dos outputs de saída e erro para um arquivo é tão comum que existe um "atalho": `&>` e `&>>`. 
+
+```bash
+$ head -n1 /arquivo-inexistente &> head.both
+$ cat head.both
+head: cannot open 'arquivo-inexistente' for reading: No such file or directory
+```
+
+* Um ponto interessante é que quando usamos pipes \(`|`\) o STDERR não é passado como argumento para os comandõs seguintes. Note como no comando abaixo, o erro de leitura do primeiro `cat` não foi  passado para o seguinte.
+
+```bash
+$ cat /etc/environment /arquivo-inexistente | cat -n
+cat: /arquivo-inexistente: No such file or directory
+     1  PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+```
+
+* Podemos usar o redirecionamento para solucionar isso. Podemos, no primeiro comando incluir o `2>&1`ou usar a forma especial do pipe `|&`.
+
+```bash
+$ cat /etc/environment /arquivo-inexistente |& cat -n
+     1  PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+     2  cat: /arquivo-inexistente: No such file or directory
+
+$ cat /etc/environment /arquivo-inexistente 2>&1 | cat -n
+     1  PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+     2  cat: /arquivo-inexistente: No such file or directory
+```
+
+* É uma prática muito comum redirecionar outputs para `/dev/null` quando desejamos descartá-los. Isto é porque muitas vezes precisamos apenas saber se um comando foi bem sucedido e, para isto, podemos utilizar a variável `${?}`.
+
+```bash
+$ head -n3 /inexistent-file &> /dev/null
+```
+
+### Aula 24 e 25
+
+* Exercício que dá continuidade ao script de criação de usuários.
+  * Nomeado _add-newer-local-user.sh._
+  * Garante que será executado com privilégios de superuser \(root\). Encerra com status 1 caso negativo. Todas as mensagens associadas com esse evento deverão ser exibidas no standard error.
+  * Exibe uma mensagem similar à que seria exibida em uma página man se o usuário não informar o nome da conta, encerrando a execução com sstatus 1. Todas as mensagens associadas com esse evento deverão ser exibidas no standard error.
+  * Usa o primeiro argumento como o nome para a conta. Qualquer outro\(s\) argumento\(s\) serão usados como comentários da conta.
+  * Gera uma nova senha automaticamente para a conta.
+  * Informa ao usuário se houve erro na criação por algum motivo. Neste caso, encerra com status 1. Todas as mensagens associadas com esse evento deverão ser exibidas no standard error.
+  * Exibe o nome de usuário, senha e host em que a conta foi criada.
+  * Suprime o output de todos os outros comandos.
 
 ## Referências
 
