@@ -625,9 +625,31 @@ main
 
 ### Aula 26
 
-Please wait.
+* Quando temos código ou consideramos construir uma lista de instruções `if`, pode ser que estejamos em uma situação onde o `case` resolveria melhor a situação.
 
+```bash
+case "${!} in
+    start)
+        echo "Starting."
+        ;;
+    stop)
+        echo "Stopping."
+        ;;
+    status|state|--status|--state)
+        echo "Status."
+        ;;
+    *)
+        echo "Not supported!."
+        ;;
+esac
+```
 
+* O último case `*)` significa "match anything", agindo como nosso `else`. O _pattern_ usado no case aceita qualquer padrão suportado no _pattern matching_ padrão do bash \(ver em `man bash`, pesquisar por _P_a_ttern Matching_\).
+* É possível tambem usar o pipe \(`|`\) para usar mais e um padrão por caso. Entenda o pipe como um `OR`.
+
+### Aula 27
+
+Please wait!
 
 ## Referências
 
