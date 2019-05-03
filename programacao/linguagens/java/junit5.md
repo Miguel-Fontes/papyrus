@@ -278,6 +278,18 @@ class AssertionsDemo {
 
 Há uma nova asserção chamada `assertAll` que recebe uma lista de asserções. Todas as asserções são executadas e, se existirem, todas as falhas serão reportadas.
 
+```java
+@Test
+void groupedAssertions() {
+    // In a grouped assertion all assertions are executed, and any
+    // failures will be reported together.
+    assertAll("person",
+        () -> assertEquals("John", person.getFirstName()),
+        () -> assertEquals("Doe", person.getLastName())
+    );
+}
+```
+
 É possível criar estruturas complexas utilizando o `assertAll`.
 
 ```java
@@ -347,7 +359,17 @@ void timeoutExceeded() {
 Assumptions é um recurso antigo do JUnit 4 que também foi melhorado nesta nova versão. Uma Assumption é uma teste utilizado para garantir que o ambiente do teste é adequado e, caso contrário, o teste será ignorado. Este é um recurso útil para verificar configurações externas ou outros detalhes que possam causar a quebra do teste mas que não possuam relação com o está sendo testado em si \(uma conexão com o BD, por exemplo\).
 
 ```java
-testReporter.publishEntry(chave, valor);
+class AssumptionsDemo {
+
+    @Test
+    void testOnlyOnCiServer() {
+        assumeTrue("CI".equals(System.getenv("ENV")));
+        // remainder of test
+    }
+
+    // More tests
+
+}
 ```
 
 Todas as Assumptions são métodos estáticos. Mais em [documentação de usuario](http://junit.org/junit5/docs/current/user-guide/#writing-tests-assumptions) e todos os métodos listados no [javadoc](http://junit.org/junit5/docs/current/api/org/junit/jupiter/api/Assumptions.html)
@@ -502,6 +524,26 @@ void test1(TestInfo testInfo) {
 ```
 
 Podemos utilizar o `TestReporter` da seguinte forma:
+
+```java
+class TestReporterDemo {
+
+    @Test
+    void reportSingleValue(TestReporter testReporter) {
+        testReporter.publishEntry("a key", "a value");
+    }
+
+    @Test
+    void reportSeveralValues(TestReporter testReporter) {
+        HashMap<String, String> values = new HashMap<>();
+        values.put("user name", "dk38");
+        values.put("award year", "1974");
+
+        testReporter.publishEntry(values);
+    }
+
+}
+```
 
 Na execução, será impresso "timestamp = 2017-09-16T12:53:21.366, user name = dk38, award year = 1974'. Também é possível chamar o método `publicEntry` adicionando uma chave e valor, da seguinte forma:
 

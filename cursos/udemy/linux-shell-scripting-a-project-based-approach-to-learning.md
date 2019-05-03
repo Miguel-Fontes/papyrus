@@ -116,8 +116,9 @@ drwxrwxr-x 3 miguel miguel 4096 abr 22 08:41 programacao
 * O comando `exit` encerra a execução de um script. Este comando recebe um código de status ou, caso este seja omitido, o status da execução do comando anterior será utilizado.
 * A sintaxe `$(command)` captura o resultado do comando, permitindo que este seja armazenado em uma variável ou usado como argumento para outros comandos.
 * A variável `?` armazena o código de saída do último comando, portanto, podemos testar o status da execução com a condicional `if [[ "${?}" -ne 0 ]]; then; echo "Error"; fi;`.
-* Para testar se duas strings são iguais, usa-se o operador `eq`, como em: `[[ "${x}" -eq "${y}" ]]`.
-* Para testar se duas strings são diferentes, usa-se o operador `eq`, como em: `[[ "${x}" -ne "${y}" ]]`.
+* Para testar se dois inteiros são iguais, usa-se o operador `eq`, como em: `[[ "${x}" -eq "${y}" ]]`.
+* Para testar se dois inteiros são diferentes, usa-se o operador `ne`, como em: `[[ "${x}" -ne "${y}" ]]`.
+* Da mesma forma, pode-se testar igualdade e desigualdade de strings com `=` e `!=`.
 
 ### Aula 14
 
@@ -530,12 +531,103 @@ $ head -n3 /inexistent-file &> /dev/null
 * Exercício que dá continuidade ao script de criação de usuários.
   * Nomeado _add-newer-local-user.sh._
   * Garante que será executado com privilégios de superuser \(root\). Encerra com status 1 caso negativo. Todas as mensagens associadas com esse evento deverão ser exibidas no standard error.
-  * Exibe uma mensagem similar à que seria exibida em uma página man se o usuário não informar o nome da conta, encerrando a execução com sstatus 1. Todas as mensagens associadas com esse evento deverão ser exibidas no standard error.
+  * Exibe uma mensagem similar à que seria exibida em uma página man se o usuário não informar o nome da conta, encerrando a execução com status 1. Todas as mensagens associadas com esse evento deverão ser exibidas no standard error.
   * Usa o primeiro argumento como o nome para a conta. Qualquer outro\(s\) argumento\(s\) serão usados como comentários da conta.
   * Gera uma nova senha automaticamente para a conta.
   * Informa ao usuário se houve erro na criação por algum motivo. Neste caso, encerra com status 1. Todas as mensagens associadas com esse evento deverão ser exibidas no standard error.
   * Exibe o nome de usuário, senha e host em que a conta foi criada.
   * Suprime o output de todos os outros comandos.
+* Ainda utilizando o mesmo script como exemplo, a solução foi adicionar `>&2` nos pontos onde os echos deveriam ser enviados ao STDERR, e `&> /dev/null` onde todo output deveria ser suprimido.
+
+{% code-tabs %}
+{% code-tabs-item title="add-newer-local-user.sh" %}
+```bash
+#!/bin/bash
+
+declare LOGIN=$1
+declare COMMENTS="${@:2}"
+declare PASSWORD=$(date +%s%N | sha256sum | head -c32)
+declare -r USAGE="
+NAME
+    $(basename $0) - creates a new user
+
+SYNOPSIS
+    $(basename $0) [LOGIN] [COMMENTS]...
+    $(basename $0) user \"New application user\"
+    $(basename $0) user \"New application user\" \"Uses foo application\"
+
+DESCRIPTION
+    Creates a new user on the host, with a given LOGIN name and COMMENTs that describe who is the user and what kind of access it uses.
+
+    Exit status:
+        0   if OK,
+        1   if an error has ocurred.
+
+AUTHOR
+    Written by Miguel Fontes, for the Udemy Linux Shell Scripting: A Project-Based Approach to Learning course.
+
+SEE ALSO
+    Course page at <https://www.udemy.com/linux-shell-scripting-projects/learn/v4>
+"
+guardValidParameters() {
+  if [[ -z "$LOGIN" ]]; then
+    echo "ERROR: Mandatory LOGIN argument was not given!" >&2
+    echo "${USAGE}" >&2
+    exit 1
+  fi
+}
+
+guardIsSuperUser() {
+  if [[ "${UID}" -ne 0 ]]; then
+    echo "ERROR: Current user is not root! Please, try again with sudo or as root" >&2
+    exit 1
+  fi
+}
+
+createNewUser() {
+  useradd -c "${COMMENTS}" -m "${LOGIN}"
+
+  if [[ "${?}" -ne 0 ]]; then
+    echo "ERROR: There was an error on the user creation process! Please, review the given arguments and try again!" >&2
+    exit 1
+  fi
+}
+
+setDefaultPassword() {
+  PASSWORD=$(date +%s%N | sha256sum | head -c32)
+  echo "${LOGIN}:${PASSWORD}" | chpasswd
+  passwd -e "${LOGIN}" &> /dev/null
+}
+
+showNewUserInformation() {
+  echo "..."
+  echo "User [${LOGIN}] created successfully! The user will be prompted to change his password on first login."
+  echo "Login: ${LOGIN}"
+  echo "Initial password: ${PASSWORD}"
+  echo "Hostname: ${HOSTNAME}"
+}
+
+main() {
+  guardValidParameters
+  guardIsSuperUser
+  createNewUser
+  setDefaultPassword
+  showNewUserInformation
+  exit 0
+}
+
+main
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+## Seção 6
+
+### Aula 26
+
+Please wait.
+
+
 
 ## Referências
 
