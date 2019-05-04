@@ -649,7 +649,121 @@ esac
 
 ### Aula 27
 
-Please wait!
+* Funções são definidas com a sintaxe `nome() { ... }`.
+* Podem ser invocadas como um comando padão `nome arg1 arg2 arg3`.
+* Uma função deve ser definida antes de ser usada.
+
+```bash
+#!/bin/bash
+
+function() {
+    echo "You called the log function!"
+}
+
+log
+```
+
+* Uma função tem acesso ao escopo global de variáveis, mas seu conjunto de argumentos \(`$1`, `$2`, ...\) é local. 
+* O fato da função ter acesso ao escopo global significa que podemos ter problemas de conflitos de nomes. Para evitar, podemos usar a keyword `local`.
+
+```bash
+#!/bin/bash
+
+function() {
+    local MESSAGE="${@}"
+    echo "${MESSAGE}"
+}
+
+log "Hello!"
+```
+
+* A palavra chave `readonly` transforma uma variável em uma constante. Um exemplo é `readonly VERBOSE=true`.
+* O comando `logger` nos concede acesso às funcionalidades de log de sistema do Linux. É possível prover diversas informações, mas as principais são um tag e uma mensagem: `logger -t "my-script" "my message"`.
+* Uma forma comum de usar o logger em um script é `logger -t $0 "message"` . Nesta forma, o tag será sempre o nome do arquivo de script em que o log foi gravado.
+* Para ler o log: `sudo tail /var/log/messages`.
+* Em funções, utilize `return` ao invés de `exit`. O return irá apenas encerrar a função, retornando um código de status numérico, enquanto `exit` irá encerrar o script, o que geralmente não é o comportamento adequado.
+
+### Aula 28
+
+* O comando `getopts` nos permite facilmente tratar opções de linha de comando.
+* O comando `getopts` recebe dois argumentos: 1\) a definição das opções e 2\) a variável que receberá a opção atual. Este coando é um built-in do bash, e é suportado diretamente pelo `while`.
+
+```bash
+while getopts ab:cde OPCAO; do
+   case "${OPCAO}" in
+      a) recebi_a=1 ;;
+      b) argumento_b="${OPTARG}" ;;
+      c) recebi_c=1 ;;
+      d) recebi_d=1 ;;
+      e) recebi_e=1 ;;
+   esac
+done
+```
+
+* A definição das opções do `getopts` funciona da seguinte forma:
+  * Cada caractere indicado torna-se uma chave `-x` onde x é o nome da opção indicado na sequência.
+  * Se o caractere da opção possuir um `:` à sua direita, significa que ele recebe um valor como argumento, e isto será validado pelo `getopts`. 
+* Portanto, na definição `ab:cde`, estamos definindo as opções: `-a`, `-b [ARG]`, `-c`,  `-d`, `-e`.
+* Estes argumentos geralmente são tratados em uma cláusula `case`, conforme listado acima.
+
+```bash
+#!/bin/bash
+
+LENGTH=48
+
+usage() {
+    echo "Usage: $0 [-vs] [l LENGTH]" >&2
+    echo 'Generate a random password.'
+    echo '  -l LENGTH   Specify the password length'
+    echo '  -s          Append a special character to the password.'
+    echo '  -v          Increase verbosity.'
+    exit 1
+}
+
+log() {
+    local MESSAGE="${@}"
+    if [[ "${VERBOSE}" = 'true' ]]; then
+        echo "$MESSAGE"
+    fi
+}
+
+while getopts vl:s OPTION; do
+    case ${OPTION} in
+        v)
+            VERBOSE='true'
+            echo 'Verbose mode on.'
+            ;;
+        l)
+            LENGTH="${OPTARG}"
+            ;;
+        s)  
+            USE_SPECIAL_CHARACTER='true'
+            ;;
+        ?)
+            usage
+            ;;
+    esac
+done
+
+log 'Generating a password.'
+
+PASSWORD=$(date +%s%N${RANDOM}${RANDOM} | sha256sum | head -c${LENGTH})
+
+if [[ "${USE_SPECIAL_CHARACTER}" = 'true' ]]; then 
+    log 'Selecting a random special character'
+    SPECIAL_CHARACTER=$(echo '!@#$%&*()-=+' | fold -w1 | shuf | head -c1)
+    PASSWORD="${PASSWORD}${SPECIAL_CHARACTER}"
+fi 
+
+log 'Done.'
+log 'Here is the password: '
+
+echo "${PASSWORD}"
+
+exit 0
+```
+
+* Neste exemplo, o último match `?` foi usado para indicar qualquer caractere.
 
 ## Referências
 
@@ -668,6 +782,7 @@ Please wait!
 13. Shell Scripting Tutorial - For loops: [https://www.shellscript.sh/loops.html](https://www.shellscript.sh/loops.html)
 14. Bash Hackers Wiki - Arrays: [https://wiki.bash-hackers.org/syntax/arrays](https://wiki.bash-hackers.org/syntax/arrays)
 15. Bash Hackers Wiki - Range Of Positional Parameters: [https://wiki.bash-hackers.org/scripting/posparams\#range\_of\_positional\_parameters](https://wiki.bash-hackers.org/scripting/posparams#range_of_positional_parameters)
+16. IBM DeveloperWorks - Com getopts, seus scripts ficam mais profissionais: [https://www.ibm.com/developerworks/community/blogs/752a690f-8e93-4948-b7a3-c060117e8665/entry/getopts\_scripts\_mais\_profissionais?lang=en](https://www.ibm.com/developerworks/community/blogs/752a690f-8e93-4948-b7a3-c060117e8665/entry/getopts_scripts_mais_profissionais?lang=en)
 
 ## Relacionados
 
