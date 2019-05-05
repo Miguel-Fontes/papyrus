@@ -6,6 +6,7 @@
 
 * [Linguagens](programacao/linguagens/README.md)
   * [Shell Script](programacao/linguagens/shell-script/README.md)
+    * [Básicos](programacao/linguagens/shell-script/basicos.md)
     * [Acessando APIs Rest](programacao/linguagens/shell-script/acessando-apis-rest.md)
   * [Java](programacao/linguagens/java/README.md)
     * [Maven](programacao/linguagens/java/maven.md)
