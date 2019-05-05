@@ -23,7 +23,7 @@ O valor de uma variável pode ser acessado adicionando um `$` à frente de seu n
 
 Esta segunda forma permite concaternar outras strings com o valor da variável, com as chaves atuando como delimitadores do nome da variável.
 
-``` bash
+```bash
 echo "${RANDOM}${RANDOM}."
 ```
 
@@ -31,31 +31,21 @@ echo "${RANDOM}${RANDOM}."
 
 Uma variável pode ser redefinida a não ser que seja definida como imutável. Para tal é possível utilizar duas formas:
 
-``` bash
+```bash
 declare -r VARIAVEL="VALOR"
 readonly OUTRA_VARIAVEL="VALOR"
-``` 
+```
 
-A vantagem de utilizar `readonly` é que pode-se invocá-la à qualquer momento, não apenas no momento da declaração da variável. Além disso, 
+A vantagem de utilizar `readonly` é que pode-se invocá-la à qualquer momento, não apenas no momento da declaração da variável. Além disso,
 
 ### Argumentos
 
 Pode-se acessar os argumentos de um script através de um conjunto de variáveis especiais:
 
-- $0: armazena o nome do script
-- $1: armazena o valor do primeiro argumento
-- $2 ... $x: armazena o valor do argumento x.
-- $@: Todos os argumentos separados por espaços
+* $0: armazena o nome do script
+* $1: armazena o valor do primeiro argumento
+* $2 ... $x: armazena o valor do argumento x.
+* $@: Todos os argumentos separados por espaços
 
-Existe, então, uma variável que contêm o valor de cada posição de argumento indicado.
-
-
-
-
-
-
-
-
-
-
+Existe, então, uma variável que contêm o valor de cada posição de argumento indicado. 
 
