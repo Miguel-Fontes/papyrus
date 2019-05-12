@@ -765,6 +765,282 @@ exit 0
 
 * Neste exemplo, o último match `?` foi usado para indicar qualquer caractere.
 
+### Aula 29
+
+* Para executar operações artiméticas, deve-se utilizar a sintaxe `NUM=$(( 2 * 4 ))`.
+* **Importante**: o bash não suporta operações com ponto flutuante. 
+  * Para tal use o `bc` da seguinte forma: `echo '6 / 4' | bc -l`.
+  * Outra opção é utilizar `awk`, `awk 'BEGIN {print 6/4}'`.
+* O bash suporta os operadores `++` e `--`,  `(( NUM++ ))`.
+* Além disso, é possível utilizar operadores como `+=` e `-=`.
+* O comando `let` permite a execução de operações aritméticas `let NUM='2 + 3'`. Execute `help let | less` para saber sobre os operadores suportados.
+* `expr` é outro comando que permite a execução de operações, `NUM=$(expr 1 + 1)`.
+* Estes cálculos aritméticos nos apoiam à ampliar nosso uso do `getopts`. O `getopts` processa todas as opções listadas, no entanto, não limpa a lista de argumentos ao fim, impossibilitando o acesso fácil à qualquer argumento adicional. Para fazê-lo, podemos utilizar o `shift` e uma simples fórmula.
+* O `getopts` armazena em uma variável chamada `OPTIND` a posição do 'próximo argumento'. Ao final do processamento das opções, esta variável terá o valor do primeiro argumento nao proessado \(o primeiro argumento restante\).
+* Podemos implementar a regra então como `shift "$(( OPTIND -1 ))"`, o que irá fazer um shift até o primeiro argumento não consumido `getopts`.
+
+### Aula 30
+
+* Podemos procurar comandos usando o comando locate, `locate userdel`.
+* O comando `locate` usa o índice do linux que é atualizado uma vez por dia. Caso um comando não seja localizado, use `sudo updatedb` para atualizar os índices.
+* Outro comando para procurar comandos é o find, utilizando `find /usr/bin -name [`.
+
+### Aula 31
+
+* Podemos usar o comando `userdel` para remover uma conta de usuário.
+* Ao executar `sudo userdel user1` o usuário `user1` será deletado. Usando a chave `-r`, o diretório home deste usuário e deletado no processo.
+* Podemos ver o id de uma conta de usuário com o comando `id -u user`.
+* No arquivo `/etc/login.defs` define-se os ids automáticos gerados para os usuários do sistema. Por default, contas de sistemas recebam UIDs entre 201 e 999, facilitando sua identificação.
+
+### Aula 32
+
+* Podemos criar um arquivo `tar` com `tar -cvf archive.tar mydir/`.
+* Podemos extrair com `tar -xf ../archive.tar`. Este comando extrai o arquivo em um diretório do nível superior.
+* Podemos compactar um arquivo com `gzip` usando `gzip archive.tar`.
+
+### Aula 33
+
+* O comando `chage` nos permite alterar a data de expiração de uma conta: `sudo chage -E 0 user1`.
+* Podemos também "trancar" um usuário com o comando `passwd -l user1`, e destrancar com `passwd -u user1`.
+
+### Aula 34 e 35
+
+* Exercício onde um script para deleção de contas deverá ser desenvolvido.
+* Os requisitos são:
+  * Deve chamar-se `disable-local-user.sh`.
+  * Garante que é executado com acesso root. Caso contrário encerra a execução com status 1, imprimindo mensagem de erro no standard error.
+  * Exibe mensagem similar à uma página _man_ se o usuário não informar um nome de conta, encerrando com status 1 e imprimindo no standard error.
+  * Desabilita \(expira e trava\) contas por padrão.
+  * Possibilita as seguintes opções:
+    * -d: deleta a conta ao invés de desabilitar.
+    * -r: remove o diretório HOME associado à conta.
+    * -a: cria um arquivo com o diretório HOME associado à conta, e o armazena no diretório `/archives`, criando o diretório caso ele não exista.
+    * Qualquer outra opção fará com que o script exiba a mensagem de uso, saindo com o status 1.
+  * Aceita uma lista de nomes de usuário como argumento. Ao menos um nome de usuário deve ser provido, caso contrário deve-se exibir a mensagem de uso, encerrando com status 1 e imprimindo para o standard error.
+  * Não permite que contas com UID menor que 1000 sejam desabilitadas ou deletadas.
+  * Informa o usuário se agum erro ocorreu ao desabilitar, deletar ou arquivar.
+  * Exibe o nome do usuário e todas as ações executadas na conta.
+
+```bash
+#!/bin/bash
+
+# Disable local user
+#
+# Disables or delete a local user, providing options to delete, and store a archive of the user HOME directory.
+
+declare -r USAGE="
+Usage: $(basename $0) [-d] [-r] [-a] <USER>...
+Disables / deletes user(s).                                                    
+
+    -d  Deletes the user instead of disabling.                                 
+    -r  Deletes the HOME directory associated with the given user.             
+    -a  Creates a archive of the HOME directory of the given user on /archives.
+"
+
+declare -r TRUE='true'
+declare -r FALSE='false'
+
+declare -r DEFAULT="\033[0m"
+declare -r GREEN="\033[0;32m"
+declare -r RED="\033[0;31m"
+
+declare VERVOSE="$FALSE"
+declare DELETE="$FALSE"
+declare REMOVE="$FALSE"
+declare ARCHIVE="$FALSE"
+
+usage() {
+    echo -e "$USAGE" >&2
+    exit 1
+}
+
+log() {
+    local MESSAGE="${@}"
+    if [[ "$VERBOSE" = "$TRUE" ]]; then
+        echo "$MESSAGE"
+    fi
+}
+
+out() {
+    local TYPE=$1
+    local MESSAGE=$2
+
+    if [[ "$TYPE" = "ERROR" ]]; then
+        echo "${RED}${MESSAGE}${DEFAULT}"
+    elif [[ "$TYPE" = "SUCCESS" ]]; then
+        echo "${GREEN}${MESSAGE}${DEFAULT}"
+    else
+        echo "$MESSAGE"
+    fi
+
+    return 0
+}
+
+lock() {
+    local USER="$1"
+    echo -n "Locking user [$USER]... "
+
+    passwd -l "$USER" &>/dev/null
+    if [[ "${?}" -ne 0 ]]; then
+        out "ERROR" "Error!"
+        echo "Could not lock user [$USER]!"
+        return 1
+    fi
+
+    out "SUCCESS" "Success!"
+    return 0
+}
+
+disable() {
+    local USER="$1"
+    echo -n "Disabling user [$USER]... "
+
+    chage -E 0 "$USER" &> /dev/null
+    if [[ "${?}" -ne 0 ]]; then
+        out "ERROR" "Error!"
+        echo "Could not disable user [$USER]!"
+        return 1
+    fi
+
+    out "SUCCESS" "Success!"
+    return 0
+}
+
+archive() {
+    local USER="$1"
+    echo -n "Archiving user [$USER] home diretory to /archives as ${USER}.tar... "
+
+    if [[ ! -d "/archives" ]]; then
+        mkdir /archives
+    fi
+
+    tar -cvf "/archives/${USER}.tar" "/home/$USER/" &> /dev/null
+    if [[ "${?}" -ne 0 ]]; then
+        out "ERROR" "Error!"
+        echo "Could not archive user [$USER] home directory!"
+        return 1
+    fi
+
+    out "SUCCESS" "Success!"
+    return 0
+}
+
+delete() {
+    local USER="$1"
+    echo -n "Deleting user [$USER]... "
+
+    userdel "$USER" &> /dev/null
+    if [[ "${?}" -ne 0 ]]; then
+        out "ERROR" "Error!"
+        echo "Could not delete user [$USER] with reason [$?]!"
+        return 1
+    fi
+
+    out "SUCCESS" "Success!"
+
+    return 0
+}
+
+removeHome() {
+    local USER="$1"
+    echo -n "Deleting user [$USER] home directory... "
+
+    rm -rf "/home/$USER" &> /dev/null
+    if [[ "${?}" -ne 0 ]]; then
+        out "ERROR" "Error!"
+        echo "Could not remove user [$USER] home directory!"
+        return 1
+    fi
+
+    out "SUCCESS" "Success!"
+    return 0
+
+}
+
+if [[ "${UID}" -ne 0 ]]; then
+    echo "ERROR: This script requires super user (root) privileges!" >&2
+    exit 1
+fi
+
+while getopts drav OPTION; do
+    case ${OPTION} in
+    d)
+        DELETE="$TRUE"
+        ;;
+    r)
+        REMOVE="$TRUE"
+        ;;
+    a)
+        ARCHIVE="$TRUE"
+        ;;
+    v)
+        VERBOSE="$TRUE"
+        echo "Verbose mode on."
+        ;;
+    ?)
+        usage
+        ;;
+    esac
+done
+
+# Prints the execution parameters
+log "Execution parameters:"
+log "    - Delete account?        $DELETE"
+log "    - Remove Home directory? $REMOVE"
+log "    - Archive a backup?      $ARCHIVE"
+echo ""
+
+# Shifts to the remaining arguments
+shift "$((OPTIND - 1))"
+
+# Validates the user account argument
+declare -r USERS="${@}"
+
+if [[ -z "$USERS" ]]; then
+    echo "ERROR: At least one (1) user must be given!" >&2
+    usage
+fi
+
+for USER in $USERS; do
+    echo "Processing user [$USER]... "
+
+    # Validates if is a administrative user
+    if [[ "$(id -u $USER)" -lt 1000 ]]; then
+        echo "ERROR: Deleting or disabling the administrative user [$USER] is not allowed!" >&2
+        exit 1
+    fi
+
+    # Archive home directory if requested
+    if [[ "$ARCHIVE" = "$TRUE" ]]; then
+        archive "$USER"
+    fi
+
+    # Removes the home directory if requested
+    if [[ "$REMOVE" = "$TRUE" ]]; then
+        removeHome "$USER"
+    fi
+
+    # Deletes a user, or lock and disable.
+    if [[ "$DELETE" = "$TRUE" ]]; then
+        delete "$USER"
+    else
+        lock "$USER"
+        disable "$USER"
+    fi
+
+done
+
+return 
+```
+
+## Seção 7
+
+### Aula 36
+
+* Not yet!
+
+
+
 ## Referências
 
 1. Docker:[ https://www.docker.com/](https://www.docker.com/)
