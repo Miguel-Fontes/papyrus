@@ -856,7 +856,7 @@ usage() {
 
 log() {
     local MESSAGE="${@}"
-    if [[ "$VERBOSE" = "$TRUE" ]]; then
+    if [[ "$VERBOSE" == "$TRUE" ]]; then
         echo "$MESSAGE"
     fi
 }
@@ -865,9 +865,9 @@ out() {
     local TYPE=$1
     local MESSAGE=$2
 
-    if [[ "$TYPE" = "ERROR" ]]; then
+    if [[ "$TYPE" == "ERROR" ]]; then
         echo "${RED}${MESSAGE}${DEFAULT}"
-    elif [[ "$TYPE" = "SUCCESS" ]]; then
+    elif [[ "$TYPE" == "SUCCESS" ]]; then
         echo "${GREEN}${MESSAGE}${DEFAULT}"
     else
         echo "$MESSAGE"
@@ -895,7 +895,7 @@ disable() {
     local USER="$1"
     echo -n "Disabling user [$USER]... "
 
-    chage -E 0 "$USER" &> /dev/null
+    chage -E 0 "$USER" &>/dev/null
     if [[ "${?}" -ne 0 ]]; then
         out "ERROR" "Error!"
         echo "Could not disable user [$USER]!"
@@ -914,7 +914,7 @@ archive() {
         mkdir /archives
     fi
 
-    tar -cvf "/archives/${USER}.tar" "/home/$USER/" &> /dev/null
+    tar -cvf "/archives/${USER}.tar" "/home/$USER/" &>/dev/null
     if [[ "${?}" -ne 0 ]]; then
         out "ERROR" "Error!"
         echo "Could not archive user [$USER] home directory!"
@@ -929,7 +929,7 @@ delete() {
     local USER="$1"
     echo -n "Deleting user [$USER]... "
 
-    userdel "$USER" &> /dev/null
+    userdel "$USER" &>/dev/null
     if [[ "${?}" -ne 0 ]]; then
         out "ERROR" "Error!"
         echo "Could not delete user [$USER] with reason [$?]!"
@@ -945,7 +945,7 @@ removeHome() {
     local USER="$1"
     echo -n "Deleting user [$USER] home directory... "
 
-    rm -rf "/home/$USER" &> /dev/null
+    rm -rf "/home/$USER" &>/dev/null
     if [[ "${?}" -ne 0 ]]; then
         out "ERROR" "Error!"
         echo "Could not remove user [$USER] home directory!"
@@ -1004,24 +1004,32 @@ fi
 for USER in $USERS; do
     echo "Processing user [$USER]... "
 
+    USER_ID=$(id -u $USER 2> /dev/null)
+
+    # Validate if user exists
+    if [[ -z "$USER_ID" ]]; then
+        echo "ERROR: User [$USER] does not exists!"
+        exit 1
+    fi
+
     # Validates if is a administrative user
-    if [[ "$(id -u $USER)" -lt 1000 ]]; then
+    if [[ "$USER_ID" -lt 1000 ]]; then
         echo "ERROR: Deleting or disabling the administrative user [$USER] is not allowed!" >&2
         exit 1
     fi
 
     # Archive home directory if requested
-    if [[ "$ARCHIVE" = "$TRUE" ]]; then
+    if [[ "$ARCHIVE" == "$TRUE" ]]; then
         archive "$USER"
     fi
 
     # Removes the home directory if requested
-    if [[ "$REMOVE" = "$TRUE" ]]; then
+    if [[ "$REMOVE" == "$TRUE" ]]; then
         removeHome "$USER"
     fi
 
     # Deletes a user, or lock and disable.
-    if [[ "$DELETE" = "$TRUE" ]]; then
+    if [[ "$DELETE" == "$TRUE" ]]; then
         delete "$USER"
     else
         lock "$USER"
@@ -1030,7 +1038,8 @@ for USER in $USERS; do
 
 done
 
-return 
+exit 0
+
 ```
 
 ## Seção 7
