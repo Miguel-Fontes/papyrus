@@ -1046,9 +1046,47 @@ exit 0
 
 ### Aula 36
 
-* Not yet!
+* O comando `cut` imprime partes específicas de linhas de arquivos informados via standard input.
+* Para obter o caractere n de cada linha de um arquivo, use a opção `-c` . Executar `cut -c 1 /etc/psswd` irá imprimir o primeiro caractere de cada linha do arquivo passwd.
+* Para obter um intervalo de caracteres, utilize um intervalo com a opção `-c`. Executar `cut -c 4-7 /etc/passwd` irá imprimir os caracteres 4 - 7 de cada linha do arquivo.
+* Para obter todos os caracteres à partir de um índice específico, use um intervalo aberto: `cut -c 4- /etc/passwd`.
+* Para obter todos os caracteres até um índice, inverta o intervalo aberto usado anteriormente: `cut -c -4 /etc/passwd`.
+* Para obter uma sequência de índices, separe-os com vírgula como em `cut -c 1,5,8 /etc/passwd`.
+* A chave `-b` imprimir caracteres por byte.: `cut -b 1 /etc/passwd`.
+* A chave `-f` permite que "campos" sejam obtidos, o que é útil para processar arquivos CSV, por exemplo. Use `echo 'one,two,three' | cut -d ',' -f 3` para obter "three". O delimitador padrão é `\t`.
+* A saida do comando `cut`, quando usadá a chave `-f` utiliza o mesmo delimitador. Para alterá-lo de separado por vírgulas para separado por tabulação podemos utilizar a chave `--output-delimiter='\t'`.
+* O comando `grep` aceita expressões regulares, e possui uma chave `-v` que é um not, retornando todas as linhas de m arquivo que não foram um match da expressão indicada.
+* Podemos usar o awk para executar operações complexas. Considere que desejamos obter o valor do campo 2 da string `DATA:firstDATA:last`. Se usássemos `cut -d 'DATA:' -f 2 <file>`, receberíamos um erro, pois uma limitação do `cut` é que um delimitador precisa ter um único caractere. O awk não tem esta limitação: `awk -F 'DATA:' '{print $2}' <file>`.
+* Neste comando, a instrução entre `{}` é um programa `awk`. 
+* Podemos acessar diferentes campos com `awk -F ':' '{print $1, $3}' /etc/passwd`.
+* O separador padrão do `awk` é um espaço. Para removê-lo omita o espaço entre os campos:  `awk -F ':' '{print $1,$3}' /etc/passwd`.
+* Para alterar o separador para outro caractere use o parâmetro `-v OFS=','` antes da definição do programa.
+* Outra opção, é definir uma String personalizada no programa: `awk -F ':' '{print $1 ", " $3}' /etc/passwd`.
+* O `awk` possui uma variável `$NF` que conhece a quantidade de campos de cada linha.
+* É possível executar operações artiméticas usando a sintaxe `$( $NF - 1 )` em um programa `awk`. 
+* O separador de campos padrão do `awk` é espaço em branco.
 
+### Aula 37
 
+* Podemos obter todas as portas abertas com `netstat -nutl | grep ':' | awk '{print $4}' | awk -F ':' '{print $NF}'` .
+
+### Aula 38
+
+* O comando `sort` ordena o seu input alfabeticamente. Exemplo: `sort /etc/passwd`.
+* A chave `-r` ordena na ordem inversa: `sort -r /etc passwd`.
+* O comando `sort` não ordena números corretamente se você não utilizar a chave `-n`.  Este comportamento pode ser exemplificado com o comando `cut -d ':' -f 3 /etc/passdw | sort -n`.
+* O comando `sort` possui uma opção que formata números que estejam em formato legível \(human readable form\). Um exemplo disto pode ser visto combinando-o com `du`: `sudo du -h /var | sort -h`.
+* A chave `-u` do comando `sort` remove duplicatas em um conjunto de dados.
+* Existe um comando chamado `uniq` que faz exatamente o mesmo trabalho da chave `-u` do comando `sort`. O único detalhe deste comando é que ele só funciona com dados ordenados.
+* Usando a chave `-c` do comando `uniq` uma contagem da quantidade de vezes que um valor se repetiu será exibida. Exemplificando: `sudo cat /var/log/messages | awk '{print $5}' | sort | uniq -c`.
+* O comando `wc` possibilita a contagem de linhas, palavras, e caracteres. Execute `wc /etc/passwd` para visualizar uma listagem de número de linhas, número de palavras, número de caracteres.
+* Se quiser saber apenas a quantidade de linhas, use a chave `-l` do comando `wc`.
+* Para executar um `sort` por um campo específico, use a opção `-k`. No comando `cat /etc/passwd | sort -t ':' -k 3 -n`, executa-se um sort numérico no campo 3, do arquivo passwd. O campos são delimitados pelo separador ':' indicado em `-t`.
+* O comando `tail -3` imprime as três últimas linhas de uma arquivo.
+
+### Aula 39 e 40
+
+Not yet!
 
 ## Referências
 
