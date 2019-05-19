@@ -1076,7 +1076,7 @@ exit 0
 * A chave `-r` ordena na ordem inversa: `sort -r /etc passwd`.
 * O comando `sort` não ordena números corretamente se você não utilizar a chave `-n`.  Este comportamento pode ser exemplificado com o comando `cut -d ':' -f 3 /etc/passdw | sort -n`.
 * O comando `sort` possui uma opção que formata números que estejam em formato legível \(human readable form\). Um exemplo disto pode ser visto combinando-o com `du`: `sudo du -h /var | sort -h`.
-* A chave `-u` do comando `sort` remove duplicatas em um conjunto de dados.
+* A chaecho "1 119.15.137.149" \| cut -f 1ve `-u` do comando `sort` remove duplicatas em um conjunto de dados.
 * Existe um comando chamado `uniq` que faz exatamente o mesmo trabalho da chave `-u` do comando `sort`. O único detalhe deste comando é que ele só funciona com dados ordenados.
 * Usando a chave `-c` do comando `uniq` uma contagem da quantidade de vezes que um valor se repetiu será exibida. Exemplificando: `sudo cat /var/log/messages | awk '{print $5}' | sort | uniq -c`.
 * O comando `wc` possibilita a contagem de linhas, palavras, e caracteres. Execute `wc /etc/passwd` para visualizar uma listagem de número de linhas, número de palavras, número de caracteres.
@@ -1085,6 +1085,55 @@ exit 0
 * O comando `tail -3` imprime as três últimas linhas de uma arquivo.
 
 ### Aula 39 e 40
+
+* Criação de um script para leitura de logs que atenda aos seguintes requisitos:
+  * Nomeado _show-attackers.sh_.
+  * O script requer que ao menos um arquivo seja indicado como argumento. Se o arquivo não for informado ou não puder ser lido, uma mensagem de erro deve ser impressa e a execução deve ser encerrada com status 1.
+  * Conta a quantidade de tentativas login mal sucedidas por IP. Se existirem ips com mais de 10 tentativas mal sucedidas, o número de tentativas, o endereço IP e a localização do IP deverão ser exibidas.
+  * Use o geoiplookup para encontrar a localização do ip.
+  * Produz output na forma de CSV com um header no formato "Count, IP, Location".
+* Implementado como:
+
+```bash
+#!/bin/bash
+
+declare -r FILE_PATH=$1
+declare -r LIMIT=10
+
+log() {
+    local ENTRY="${@}"
+    echo "$ENTRY" >> ips.out
+
+    return 0
+}
+
+if [[ -z "$FILE_PATH" || ! -e "$FILE_PATH" ]]; then
+    echo "ERROR: File [$FILE_PATH] does not exist or could not be read!" >&2
+    exit 1
+fi
+
+rm ips.out
+log "Count,IP,Location"
+
+cat "$FILE_PATH" | grep "Failed" | awk -F 'from ' '{ print $2 }' | cut -d ' ' -f 1 | sort | uniq -c | sort -nr | while read COUNT IP 
+do
+    LOCATION=$(geoiplookup "$IP" | awk -F ', ' '{ print $2 }')
+
+    log "${COUNT},${IP},${LOCATION}"
+
+    if [[ "$COUNT" -gt "$LIMIT" ]]; then 
+        echo "WARN: The ip [$IP] from [$LOCATION] tried to login [$COUNT] times unsuccessfully, and it may be a potential attacker!" >&2
+    fi 
+
+done
+
+exit 0
+
+```
+
+## Seção 8
+
+### Aula 41
 
 Not yet!
 
