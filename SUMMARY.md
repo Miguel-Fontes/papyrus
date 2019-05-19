@@ -34,4 +34,5 @@
 
 * [Udemy](cursos/udemy/README.md)
   * [Linux Shell Scripting: A Project-Based Approach to Learning](cursos/udemy/linux-shell-scripting-a-project-based-approach-to-learning.md)
+  * [MBA in a box: Business lessons from a CEO!](cursos/udemy/mba-in-a-box-business-lessons-from-a-ceo.md)
 
