@@ -1090,7 +1090,7 @@ exit 0
   * Nomeado _show-attackers.sh_.
   * O script requer que ao menos um arquivo seja indicado como argumento. Se o arquivo não for informado ou não puder ser lido, uma mensagem de erro deve ser impressa e a execução deve ser encerrada com status 1.
   * Conta a quantidade de tentativas login mal sucedidas por IP. Se existirem ips com mais de 10 tentativas mal sucedidas, o número de tentativas, o endereço IP e a localização do IP deverão ser exibidas.
-  * Use o geoiplookup para encontrar a localização do ip.
+  * Use o geoiplookup para encontrar a localização do ip \(em distribuições debian, instale com `sudo apt-get install geoip-bin`\).
   * Produz output na forma de CSV com um header no formato "Count, IP, Location".
 * Implementado como:
 
@@ -1135,7 +1135,17 @@ exit 0
 
 ### Aula 41
 
-Not yet!
+* Esta seção explica como executar comandos em outros computadores e, para isso, precisaremos de um ambiente com mais containers. Recomenda-se 3, onde um é o administrador e os outros dois são servidores. É um cenário interessante para sysadmins. Passo. 
+* O comando `tee` lê do standard input e escreve no standard output e em arquivos. O `tee` é usado quando queremos redirecionar algo para um arquivo restrito, por exemplo: `echo '10.9.8.11 server01' | sudo tee -a /etc/hosts`. Se o operador de redirecionamento `>>`  fosse usado nesse caso, um erro ocorreria pois o arquivo `etc/hosts` é restrito e não há como usar o operador com `sudo`.
+* Para acesso seguro via ssh, recomenda-se gerar um chave com `ssh-keygen`, e copiar a chave gerada para o servidor destino com `ssh-copy-id <hostname>`.
+
+### Aula 42, 43 e 44
+
+* Um exercício de conexão em sistemas remotos e execução de comandos. Passo.
+
+## Mais
+
+* Mais duas seções com aulas de revisão!
 
 ## Referências
 
