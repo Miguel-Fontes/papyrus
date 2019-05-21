@@ -14,6 +14,8 @@ description: Um MBA completo. Será?
 
 * O curso disponibiliza um livro jogo, que simula um cenário de negócio onde você deve tomar as decisões. Ao terminar, é possível publicar os resultados online e, mensalmente, a equipe do curso avalia suas decisões e te dá uma pontuação. Os melhores ganham um cartão de $10 na Amazon.
 
+## Seção 2
+
 ### Aula 3
 
 * Estratégias implementados por empresas bem sucedidas possuem 4 coisas em comum:
@@ -33,7 +35,40 @@ description: Um MBA completo. Será?
 
 ### Aula 4
 
-* Not yet
+* **Estratégia corporativa \(corporate strategy\)** define onde desejamos competir.
+* **Estratégia de negócio \(business strategy\)** define como desejamos competir.
+* Normalmente, os executivos definem a estratégia corporativa, e os líderes de cada unidade funcional tomam as decisões sobre estratégia de negócio.
+
+### Aula 5
+
+* A estratégia permite que líderes definam objetivos e metas.
+* Através da missão e visão da empesa, é possível criar propósito.
+* A **missão** define porque a empresa existe e qual a razão da empresa existir.
+* A **visão** define o que deseja-se alcançar no futuro, e o que desejamos que a empresa se torne.
+* **Metas** definem o que queremos alcançar.
+* E **objetivos** são ações que nos levam à alcançar as metas.
+* **Metas** devem ser descritas de forma quantificável como, por exemplo, utilizando-se de percentuais.
+* A **afirmação de valor** define como a empresa irá se comportar e no que ela acredita, garantindo a missão e a visão.
+* A missão deve ser uma descrição muito específica, ou que afirme a **estratégia de negócio**.
+
+> "To build the Web's most convenient, secure, cost-effective payment solution" - PayPayl
+>
+> "We save people money so they can live better." - Walmart
+
+* A **visão** deve ser concisa, clara e inspiradora.
+
+> "To provide access to world's information in on click" - Google
+>
+> "To create economic opportunity to every member of the global workforce" - LinkedIn
+
+* Os valores são os princípios pelos quais a organização preza.
+* O Facebook possui uma parede onde os colaboradoes podem escrever o que é importante pra eles.
+
+## Seção 3
+
+### Aula 6
+
+* Not yet!
 
 
 
