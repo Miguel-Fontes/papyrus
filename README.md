@@ -14,11 +14,11 @@ Armazeno e compartilho o conhecimento que possuo e qualquer coisa que esteja apr
 
 ## Contribuindo
 
-Edite qualquer conteúdo e proponha uma melhoria. Toda sugestão é bem vinda, e mal posso esperar para discutir e aprender com seu ponto de vista.
+Edite qualquer conteúdo e proponha uma melhoria. Toda sugestão é bem vinda, e mal posso esperar para discutir e aprender com seu ponto de vista e conhecimento.
 
 ## Quem sou
 
-Me chamo Miguel Fontes e considero-me um aprendiz em tempo integral. No tempo livre desenvolvo software, curto alguns games, aprecio boas comidas e bebidas, passeio \(e caio\) com minha bicicleta, e vivo o que há para se viver. 
+Miguel Fontes,  aprendiz em tempo integral. No tempo livre desenvolvo software, leio, curto alguns games, aprecio boas comidas e bebidas, passeio com minha bicicleta \(e caio\), e vivo o que há para se viver. 
 
 
 
