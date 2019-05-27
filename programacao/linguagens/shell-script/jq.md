@@ -213,6 +213,42 @@ company/catchPhrase
 company/bs
 ```
 
+### Saída raw
+
+Ao usar as opções `--raw-output / -r` qualquer saída do jq será escrita diretamente no standard output, ao invés de ser formatada como uma Sring json.
+
+```bash
+$ echo '{"foo": "bar"}' | jq '.foo'
+"bar"
+
+$ echo '{"foo": "bar"}' | jq -r '.foo'
+bar
+```
+
+Geralmente, quando vamos utilizar o valor em outras operações em scripts bash, é esta segunda forma que desejamos.
+
+### Iterando por atributos/items
+
+É possível iterar sobre atributos/items de um Json. Para tal, podemos usar a seguinte estrutura `while`.
+
+```bash
+echo '{"foo": "value", "bar": "value2"}' | jq -rc '.[]' | while IFS='' read ATTR; do
+    echo "$ATTR"
+done
+
+# Ouputs:
+# value1
+# value2
+
+echo '[{"foo":"value"}, {"bar":"value"}]' | jq -rc '.[]' | while IFS='' read ATTR; do
+    echo "$ATTR"
+done
+
+# Outputs:
+# {"foo":"value"}
+# {"bar":"value"}
+```
+
 ## Referências e links externos
 
 * [jq](https://stedolan.github.io/jq/), um processador de JSON leve e flexível na linha de comando. É a principal ferramenta utlizada para trabalhar com JSONs em um script SH.
