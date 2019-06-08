@@ -4,7 +4,7 @@ description: As estruturas básicas de shell script
 
 # Básicos
 
-## Introdução
+## [Estruturas de repetição](https://app.gitbook.com/@miguel-fontes/s/papyrus/~/edit/drafts/-Lgs2jQblK9oLuiyQ1dF/programacao/linguagens/shell-script/basicos#estruturas-de-repeticao)Introdução
 
 As principais estruturas da linguagem shell, para fácil referência.
 
@@ -99,5 +99,21 @@ Utilizando esta estrutura básica é possível iterar pela lista de argumentos p
 while [[ "$VARIABLE" = 'true' ]]; do
     # code
 done
+```
+
+Para iniciar um laço usando o output de um pip \(`|`\) podemos usar o while:
+
+```bash
+$ echo "aaa bbbb cccc" | while IFS=" " read var; do echo "var=$var"; done
+var=aaa bbbb cccc
+
+$ echo "aaa bbbb cccc" | while IFS=' ' read var; do echo "var=$var"; done
+var=aaa bbbb cccc
+
+$ echo "aaa bbbb cccc" | while IFS=\  read var; do echo "var=$var"; done 
+var=aaa bbbb cccc
+
+$ echo "aaa bbbb cccc" | while IFS="\ " read var; do echo "var=$var"; done
+var=aaa bbbb cccc
 ```
 
