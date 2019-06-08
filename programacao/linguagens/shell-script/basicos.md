@@ -4,7 +4,7 @@ description: As estruturas básicas de shell script
 
 # Básicos
 
-## [Estruturas de repetição](https://app.gitbook.com/@miguel-fontes/s/papyrus/~/edit/drafts/-Lgs2jQblK9oLuiyQ1dF/programacao/linguagens/shell-script/basicos#estruturas-de-repeticao)Introdução
+## Introdução
 
 As principais estruturas da linguagem shell, para fácil referência.
 
