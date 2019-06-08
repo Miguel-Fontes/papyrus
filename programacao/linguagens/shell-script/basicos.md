@@ -101,19 +101,3 @@ while [[ "$VARIABLE" = 'true' ]]; do
 done
 ```
 
-Para iniciar um laço usando o output de um pip \(`|`\) podemos usar o while:
-
-```bash
-$ echo "aaa bbbb cccc" | while IFS=" " read var; do echo "var=$var"; done
-var=aaa bbbb cccc
-
-$ echo "aaa bbbb cccc" | while IFS=' ' read var; do echo "var=$var"; done
-var=aaa bbbb cccc
-
-$ echo "aaa bbbb cccc" | while IFS=\  read var; do echo "var=$var"; done 
-var=aaa bbbb cccc
-
-$ echo "aaa bbbb cccc" | while IFS="\ " read var; do echo "var=$var"; done
-var=aaa bbbb cccc
-```
-

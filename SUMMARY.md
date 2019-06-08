@@ -8,6 +8,7 @@
   * [Shell Script](programacao/linguagens/shell-script/README.md)
     * [Básicos](programacao/linguagens/shell-script/basicos.md)
     * [Acessando APIs Rest](programacao/linguagens/shell-script/acessando-apis-rest.md)
+    * [Scripts on-demand](programacao/linguagens/shell-script/scripts-on-demand.md)
     * [jq](programacao/linguagens/shell-script/jq.md)
   * [Java](programacao/linguagens/java/README.md)
     * [Maven](programacao/linguagens/java/maven.md)
