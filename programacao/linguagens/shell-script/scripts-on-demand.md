@@ -35,6 +35,8 @@ markAsDone () {
 
 Não há diferença entre esta função e uma que estaria escrita em um arquivo. Sempre que precisar executar uma tarefa muito pontual repetidas vezes, é possível usar este recurso à seu favor.
 
+Para 'remover' esta função use `unset -f markAsDone`, ou inicie outra sessão.
+
 ## Usando source
 
 Outro recurso interessante é que podemos usar o `source` à nossa favor. Qualquer função contida em scripts ficará disponível na linha de comando se você invocar o comando `source` sobre ele.
