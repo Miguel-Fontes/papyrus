@@ -1,5 +1,5 @@
 ---
-description: As formas de comunicação entre processos e arquivos disponíveis no Shell.
+description: 'Compondo processos com scripts, comandos, e arquivos!'
 ---
 
 # Pipes, redirecionamentos, e substituições
