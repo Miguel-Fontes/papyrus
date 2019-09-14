@@ -500,7 +500,7 @@ $ cat head.both
 head: cannot open 'arquivo-inexistente' for reading: No such file or directory
 ```
 
-* Um ponto interessante é que quando usamos pipes \(`|`\) o STDERR não é passado como argumento para os comandõs seguintes. Note como no comando abaixo, o erro de leitura do primeiro `cat` não foi  passado para o seguinte.
+* Um ponto interessante é que quando usamos pipes \(`|`\) o STDERR não é passado como argumento para os comandos seguintes. Note como no comando abaixo, o erro de leitura do primeiro `cat` não foi  passado para o seguinte.
 
 ```bash
 $ cat /etc/environment /arquivo-inexistente | cat -n
@@ -645,7 +645,7 @@ esac
 ```
 
 * O último case `*)` significa "match anything", agindo como nosso `else`. O _pattern_ usado no case aceita qualquer padrão suportado no _pattern matching_ padrão do bash \(ver em `man bash`, pesquisar por _P_a_ttern Matching_\).
-* É possível tambem usar o pipe \(`|`\) para usar mais e um padrão por caso. Entenda o pipe como um `OR`.
+* É possível também usar o pipe \(`|`\) para usar mais de um padrão por caso. Entenda o pipe como um `OR`.
 
 ### Aula 27
 

@@ -89,7 +89,7 @@ $ TOTAL=0; for VALUE in $(echo $VALUES); do TOTAL=$(echo "$TOTAL + $VALUE" | bc)
 
 Dois detalhes importantes aqui: o `paste -s -d ' '` irá transformar a lista de valores de uma lista em 'linhas' para uma lista separada por espaços. Para garantir o funcionamento correto do `for..in`, usamos o artifício do `echo` no value desta variável.
 
-## Use variávels com estado intermediário
+## Use variáveis com estado intermediário
 
 O exemplo anterior utilizou uma variável chamada `VALUES` com a lista a ser iterada. Use esta técnica sempre que possível.
 
