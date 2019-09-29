@@ -18,22 +18,22 @@ Os primeiros passos necessários com um companheiro de equipe, focando em estabe
 
 ### Passado
 
-Inicie entendendo a história de vida e pontos de virada, que o levaram a chegar até onde está. Esteja atento e faça mais perguntas conforme necessário, pois é possível identificar os valores, e o que move uma pessoa através das motivações por trás de suas decisões. Compartilhe suas percepções, e explore. Anote as conclusões e compartilhe-as.
+Inicie entendendo a história de vida e pontos de virada, que o levaram a chegar até onde está. Esteja atento e faça mais perguntas conforme necessário, pois é possível identificar os valores e o que move uma pessoa através das motivações por trás de suas decisões - e é exatamente isso que desejamos encontrar nesta etapa. Compartilhe suas percepções, e explore. Anote as conclusões e compartilhe-as.
 
 ### Futuro
 
 Colabore para articular a visão de futuro, onde deseja-se chegar: pergunte sobre sonhos, onde a pessoa deseja estar no ápice de sua carreira, sentindo-se desafiada, engajada e sem desejar nada mais do que aquilo.
 
-Faça mais perguntas para tornar a visão da pessoa mais concreta, entenda se ela deseja estar em uma posição de gestão ou técnica, por exemplo. Mas cuidado: não influencie! Anote também as conclusões!
+Faça mais perguntas para tornar a visão da pessoa mais concreta, ajudando se houver alguma dificuldade. Entenda se ela deseja estar em uma posição de gestão ou técnica, por exemplo. Questione sobre com quais pessoas gostaria de trabalhar, indústria, um título. Use mais de um encontro para conduzir estas conversas, até que se tenha uma visão concreta. Mas cuidado: não influencie! Anote também as conclusões!
 
 ### Presente
 
 Armado deste conhecimento, deve-se construir um plano de ação. Que, na realidade,
 
 * Desenvolva a sua função atual, encontrando mudanças rápidas para que a pessoa ganhe experiência ou execute atividades mais alinhadas com o que deseja para seu futuro.
-* Amplie sua rede de contatos, ajudando a encontrar pessoas que podem influenciar e ajudar no que ela está tentando fazer, garantindo insumos para validar a visão de futuro e aprender mais sobre o que almeja-se.
+* Amplie sua rede de contatos, ajudando a encontrar pessoas que podem influenciar e ajudar no que ela está tentando fazer, garantindo insumos para validar a visão de futuro e aprender mais sobre o que almeja-se. Reajuste conforme necessário.
 * Defina qual o próximo passo imediato \(próxima ação e, se aplicável, papel\).
-* Encontre mentores e cursos para apoiar o desenvolvimento, considerando a visão de futuro.
+* Envolva-se com outras pessoas para aprimorar as habilidades. Encontre mentores e cursos para apoiar o desenvolvimento, considerando a visão de futuro. 
 
 ## Links
 
