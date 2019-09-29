@@ -10,6 +10,8 @@ Conversas de carreira são cruciais para que possamos apoiar nossos companheiros
 
 Conversas de carreira são diferentes de devolutivas de desempenho, uma vez que elas olham para o futuro enquanto as devolutivas de desempenho olham para o passado.
 
+Esta metodologia é a proposta por [Russ Laraway](https://www.linkedin.com/in/russlaraway). Fontes na seção [links.](conversas-de-carreira.md#links)
+
 ## Construindo um plano
 
 Os primeiros passos necessários com um companheiro de equipe, focando em estabelecer um bom relacionamento e compreensão de sua carreira até o momento, onde deseja-se chegar, e quais os passos para realizar estes sonhos.
