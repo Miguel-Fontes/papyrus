@@ -35,9 +35,11 @@
 
 * [Latex](pesquisa-and-redacao/latex.md)
 
-## Cursos
+## Anotações
 
-* [Udemy](cursos/udemy/README.md)
-  * [Linux Shell Scripting: A Project-Based Approach to Learning](cursos/udemy/linux-shell-scripting-a-project-based-approach-to-learning.md)
-  * [MBA in a box: Business lessons from a CEO!](cursos/udemy/mba-in-a-box-business-lessons-from-a-ceo.md)
+* [Udemy](anotacoes/udemy/README.md)
+  * [Linux Shell Scripting: A Project-Based Approach to Learning](anotacoes/udemy/linux-shell-scripting-a-project-based-approach-to-learning.md)
+  * [MBA in a box: Business lessons from a CEO!](anotacoes/udemy/mba-in-a-box-business-lessons-from-a-ceo.md)
+* [Safari Books Online](anotacoes/safari-books-online/README.md)
+  * [Radical candor: Be a better boss](anotacoes/safari-books-online/radical-candor-be-a-better-boss.md)
 
