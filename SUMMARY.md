@@ -43,3 +43,7 @@
 * [Safari Books Online](anotacoes/safari-books-online/README.md)
   * [Radical candor: Be a better boss](anotacoes/safari-books-online/radical-candor-be-a-better-boss.md)
 
+## Gestão & Carreira
+
+* [Conversas de carreira](gestao-and-carreira/conversas-de-carreira.md)
+
