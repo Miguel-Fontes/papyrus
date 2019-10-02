@@ -12,6 +12,15 @@ Conversas de carreira são diferentes de devolutivas de desempenho, uma vez que 
 
 Esta metodologia é a proposta por [Russ Laraway](https://www.linkedin.com/in/russlaraway). Fontes na seção [links.](conversas-de-carreira.md#links)
 
+## Porque e quando usar?
+
+Conversas de carreira são uma excelente forma de apoiar o desenvolvimento dos membros de um time, trabalhando como benefícios:
+
+* **Construção de um relacionamento sólido**, ao conversar sobre as decisões de vida que levaram o indivíduo a chegar onde está.
+* **Torna possível sugerir treinamentos e outras oportunidades de forma contextual**, uma vez que os sonhos e aspirações estarão explícitos.
+* **Abre oportunidades para** [**compartilhar conhecimento**](https://coachingforleaders.com/podcast/382/) **relevante**, uma vez que entende-se quais os reais interesses da pessoa.
+* **Aumento do engajamento e retenção**, através de um plano de desenvolvimento de acordo com as aspirações individuais.
+
 ## Construindo um plano
 
 Os primeiros passos necessários com um companheiro de equipe, focando em estabelecer um bom relacionamento e compreensão de sua carreira até o momento, onde deseja-se chegar, e quais os passos para realizar estes sonhos.
